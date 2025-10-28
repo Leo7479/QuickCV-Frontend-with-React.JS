@@ -54,15 +54,15 @@ const Template003 = (props) => {
           <div className="w-full ml-[3.5em]">
             <h2 className="font-semibold text-[#004c99] text-[1.1em]/[1] uppercase">Skills</h2>
             <ul className="text-[0.8em]/[1] text-[#1a1a1acc] mt-1 grid grid-cols-5 gap-1">
-              <li>Java</li>
-              <li>Python</li>
-              <li>C++</li>
-              <li>Spring</li>
-              <li>ReactJS</li>
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
-              <li>Node.js</li>
+              <li><span className="mr-2">•</span>Java</li>
+              <li><span className="mr-2">•</span>Python</li>
+              <li><span className="mr-2">•</span>C++</li>
+              <li><span className="mr-2">•</span>Spring</li>
+              <li><span className="mr-2">•</span>ReactJS</li>
+              <li><span className="mr-2">•</span>HTML</li>
+              <li><span className="mr-2">•</span>CSS</li>
+              <li><span className="mr-2">•</span>JavaScript</li>
+              <li><span className="mr-2">•</span>Node.js</li>
             </ul>
           </div>
         </div>
@@ -83,9 +83,9 @@ const Template003 = (props) => {
               </div>
               <p className="italic text-[0.8em] text-black">Loom & Lantern Co. - New York, NY</p>
               <ul className="text-[1em]/[1] text-[#1a1a1acc] list-disc list-inside mt-1 space-y-[2px] pl-1">
-                <li>Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability.</li>
-                <li>Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year.</li>
-                <li>Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation.</li>
+                <li><span className="mr-2">•</span>Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability.</li>
+                <li><span className="mr-2">•</span>Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year.</li>
+                <li><span className="mr-2">•</span>Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation.</li>
               </ul>
             </div>
 
@@ -97,9 +97,9 @@ const Template003 = (props) => {
               </div>
               <p className="italic text-[0.8em]/[1] text-black">Loom & Lantern Co. - New York, NY</p>
               <ul className="text-[1em]/[1] text-[#1a1a1acc] list-disc list-inside mt-1 space-y-[2px] pl-1">
-                <li>Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs.</li>
-                <li>Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments.</li>
-                <li>Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget.</li>
+                <li><span className="mr-2">•</span>Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs.</li>
+                <li><span className="mr-2">•</span>Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments.</li>
+                <li><span className="mr-2">•</span>Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget.</li>
               </ul>
             </div>
           </div>
@@ -132,10 +132,10 @@ const Template003 = (props) => {
           <div className="w-full ml-[3.5em]">
             <h2 className="font-semibold text-[#004c99] text-[1.1em]/[1] uppercase">Languages</h2>
             <ul className="w-full h-fit text-[0.8em]/[1] text-[#1a1a1acc] mt-1 gap-x-[5%] flex flex-row flex-wrap justify-start items-center">
-              <li>Bengali</li>
-              <li>English</li>
-              <li>Hindi</li>
-              <li>Japanese</li>
+              <li><span className="mr-2">•</span>Bengali</li>
+              <li><span className="mr-2">•</span>English</li>
+              <li><span className="mr-2">•</span>Hindi</li>
+              <li><span className="mr-2">•</span>Japanese</li>
             </ul>
           </div>
         </div>

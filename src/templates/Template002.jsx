@@ -86,17 +86,17 @@ const Template002 = (props) => {
                 Loom & Lantern Co. - New York, NY
               </p>
               <ul className="list-disc list-inside text-[1em]/[1] text-[#1a1a1acc] space-y-[2px]">
-                <li>
+                <li><span className="mr-2">•</span>
                   Spearhead data analysis and reporting for key business
                   functions, identifying trends and providing insights to improve
                   company performance and profitability.
                 </li>
-                <li>
+                <li><span className="mr-2">•</span>
                   Conduct in-depth market analysis and competitive benchmarking to
                   inform strategic decisions, resulting in a 15% increase in
                   market share within one year.
                 </li>
-                <li>
+                <li><span className="mr-2">•</span>
                   Develop predictive models to forecast sales performance and
                   customer behavior, contributing to more accurate budgeting and
                   resource allocation.
@@ -116,17 +116,17 @@ const Template002 = (props) => {
                 Loom & Lantern Co. - New York, NY
               </p>
               <ul className="list-disc list-inside text-[1em]/[1] text-[#1a1a1acc] space-y-[2px]">
-                <li>
+                <li><span className="mr-2">•</span>
                   Analyzed and interpreted large datasets to identify business
                   opportunities and recommend process improvements, leading to a
                   20% reduction in operational costs.
                 </li>
-                <li>
+                <li><span className="mr-2">•</span>
                   Created detailed financial models and dashboards to track key
                   performance indicators (KPIs), enabling data-driven
                   decision-making across departments.
                 </li>
-                <li>
+                <li><span className="mr-2">•</span>
                   Worked closely with project managers to monitor progress on
                   major initiatives, ensuring projects were delivered on time and
                   within budget.
@@ -184,15 +184,15 @@ const Template002 = (props) => {
                 Skills
               </h2>
               <ul className="grid grid-cols-2 gap-x-2 gap-y-[2px] text-[0.9em][1] text-[#1a1a1acc]">
-                <li>Java</li>
-                <li>Python</li>
-                <li>C++</li>
-                <li>Spring</li>
-                <li>ReactJS</li>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>Node.js</li>
+                <li><span className="mr-2">•</span>Java</li>
+                <li><span className="mr-2">•</span>Python</li>
+                <li><span className="mr-2">•</span>C++</li>
+                <li><span className="mr-2">•</span>Spring</li>
+                <li><span className="mr-2">•</span>ReactJS</li>
+                <li><span className="mr-2">•</span>HTML</li>
+                <li><span className="mr-2">•</span>CSS</li>
+                <li><span className="mr-2">•</span>JavaScript</li>
+                <li><span className="mr-2">•</span>Node.js</li>
               </ul>
             </div>
 
@@ -202,10 +202,10 @@ const Template002 = (props) => {
                 Languages
               </h2>
               <ul className="flex flex-col text-[0.9em]/[1] text-[#1a1a1acc] space-y-[2px]">
-                <li>Bengali</li>
-                <li>English</li>
-                <li>Hindi</li>
-                <li>Japanese</li>
+                <li><span className="mr-2">•</span>Bengali</li>
+                <li><span className="mr-2">•</span>English</li>
+                <li><span className="mr-2">•</span>Hindi</li>
+                <li><span className="mr-2">•</span>Japanese</li>
               </ul>
             </div>
           </div>

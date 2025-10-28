@@ -28,25 +28,25 @@ const DefaultTemplate = ({data, ...props}) => {
                     </div>
                     <div className="flex flex-col gap-y-[4px]">
                         <h2 className="font-semibold underline text-[1.1em]/[1] uppercase">Skills</h2>
-                        <ul className="list-disc list-inside flex flex-col gap-y-[2px] text-[#1a1a1abf]">
-                            <li>Java</li>
-                            <li>Python</li>
-                            <li>C++</li>
-                            <li>Spring</li>
-                            <li>ReactJS</li>
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>JavaScript</li>
-                            <li>Node.js</li>
+                        <ul className="flex flex-col gap-y-[2px] text-[#1a1a1abf]">
+                            <li><span className="mr-2">•</span>Java</li>
+                            <li><span className="mr-2">•</span>Python</li>
+                            <li><span className="mr-2">•</span>C++</li>
+                            <li><span className="mr-2">•</span>Spring</li>
+                            <li><span className="mr-2">•</span>ReactJS</li>
+                            <li><span className="mr-2">•</span>HTML</li>
+                            <li><span className="mr-2">•</span>CSS</li>
+                            <li><span className="mr-2">•</span>JavaScript</li>
+                            <li><span className="mr-2">•</span>Node.js</li>
                         </ul>
                     </div>
                     <div className="flex flex-col gap-y-[2px]">
                         <h2 className="text-[1.1em]/[1] font-semibold underline uppercase">Languages</h2>
-                        <ul className="list-disc list-inside flex flex-col gap-y-[2px] text-[#1a1a1abf]">
-                            <li>Bengali</li>
-                            <li>English</li>
-                            <li>Hindi</li>
-                            <li>Japanese</li>
+                        <ul className="flex flex-col gap-y-[2px] text-[#1a1a1abf]">
+                            <li><span className="mr-2">•</span>Bengali</li>
+                            <li><span className="mr-2">•</span>English</li>
+                            <li><span className="mr-2">•</span>Hindi</li>
+                            <li><span className="mr-2">•</span>Japanese</li>
                         </ul>
                     </div>
                 </div>
@@ -64,10 +64,10 @@ const DefaultTemplate = ({data, ...props}) => {
                                 </div>
                                 <p className="text-[0.9em]/[1.1] text-[#1a1a1afc] italic">Loom &amp; Lantern Co. - New York, NY</p>
                                 <div className="w-full h-fit mt-[2px]">
-                                    <ul className="flex flex-col gap-y-[2px] list-disc list-inside text-[#1a1a1abf] pl-[2px]">
-                                        <li>Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability.</li>
-                                        <li>Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year.</li>
-                                        <li>Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation.</li>
+                                    <ul className="flex flex-col gap-y-[2px] text-[#1a1a1abf] pl-[2px]">
+                                        <li><span className="mr-2">•</span>Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability.</li>
+                                        <li><span className="mr-2">•</span>Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year.</li>
+                                        <li><span className="mr-2">•</span>Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -78,10 +78,10 @@ const DefaultTemplate = ({data, ...props}) => {
                                 </div>
                                 <p className="text-[0.9em]/[1.1] text-[#1a1a1afc] italic">Loom &amp; Lantern Co. - New York, NY</p>
                                 <div className="w-full h-fit mt-[2px]">
-                                    <ul className="flex flex-col gap-y-[2px] list-disc list-inside text-[#1a1a1abf] pl-[2px]">
-                                        <li>Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs.</li>
-                                        <li>Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments.</li>
-                                        <li>Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget.</li>
+                                    <ul className="flex flex-col gap-y-[2px] text-[#1a1a1abf] pl-[2px]">
+                                        <li><span className="mr-2">•</span>Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs.</li>
+                                        <li><span className="mr-2">•</span>Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments.</li>
+                                        <li><span className="mr-2">•</span>Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget.</li>
                                     </ul>
                                 </div>
                             </div>
