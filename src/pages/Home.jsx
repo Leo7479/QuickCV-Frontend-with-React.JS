@@ -414,8 +414,8 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="p-4">
-                            <input type="checkbox" id="faq3" className="peer hidden" />
-                            <label htmlFor="faq3" className="flex justify-between items-center cursor-pointer select-none">
+                            <input type="checkbox" id="faq4" className="peer hidden" />
+                            <label htmlFor="faq4" className="flex justify-between items-center cursor-pointer select-none">
                                 <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800 font-serif">Why do I need an ATS-friendly resume?</span>
                                 <svg className="w-5 h-5 text-gray-500 transition-transform duration-300 peer-checked:rotate-180"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
