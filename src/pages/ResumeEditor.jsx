@@ -1,0 +1,331 @@
+import { useNavigate, useParams } from "react-router-dom";
+import LoadTemplate from "../LoadTemplate";
+import { useEffect, useRef, useState } from "react";
+import GetTemplates from "../GetTemplates";
+import GetFormConfig from "../GetFormConfig";
+import { ChevronDown, LayoutDashboardIcon, Plus, Trash2 } from "lucide-react";
+
+const ResumeEditor = (props) => {
+    const navigate = useNavigate();
+    const { templateNo } = useParams();
+    const [direction, setDirection] = useState("forwards");
+    const [template, setTemplate] = useState();
+    const stepRefs = useRef([]);
+    const [activeStep, setActiveStep] = useState(0);
+    const [steps, setSteps] = useState([]);
+    const [formConfig, setFormConfig] = useState([]);
+    const [formData, setFormData] = useState([]);
+    const formRef = useRef();
+
+    useEffect(() => {
+        if (props.resumeData) setFormData(props.resumeData);
+    }, []);
+
+    useEffect(() => {
+        async function loadTemplate() {
+            const result = GetTemplates();
+            for (let i = 0; i < result.length; i++) {
+                if (result[i].id === parseInt(templateNo)) {
+                    setTemplate(result[i]);
+                    break;
+                }
+            }
+        }
+        async function loadForm() {
+            const result = GetFormConfig();
+            setFormConfig(result);
+            let output = [];
+            for (let i = 0; i < result.length; i++) {
+                const element = result[i];
+                if (!steps.includes(element.name)) {
+                    steps.push(element.name);
+                    if (element.multiple)
+                        output = [...output, { name: element.name, entries: 1, data: [{}] }];
+                    else
+                        output = [...output, { name: element.name, data: {} }];
+                }
+            }
+            if (output.length > 0)
+                setFormData(output);
+        }
+        loadTemplate();
+        loadForm();
+    }, []);
+
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
+
+    return (
+        <div className="w-screen h-screen flex">
+            <div className="w-full h-full bg-[#eef2f9] p-4">
+                <div className="w-full h-full p-2 rounded-xl bg-white shadow-lg flex flex-col justify-between items-start gap-y-4">
+                    <div className="w-full h-fit overflow-x-auto scrollbar-needed flex-none">
+                        <div className="w-fit min-w-full h-fit flex justify-around items-center py-4">
+                            {
+                                steps.map((s, i) => {
+                                    return <div key={i} ref={stepRefs} className=" w-full h-full text-center">
+                                        <h1 className={`text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep >= i ? "text-primary" : "text-black"}`}>{s}</h1>
+                                        <div className="flex justify-between items-center relative">
+                                            <div className={`w-full h-[2px] bg-gray-300`}>
+                                                <div className={`progress-before w-full h-full bg-primary transition-all duration-[500ms] ${direction === "forwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep >= i ? "max-w-full" : "max-w-0"}`}></div>
+                                            </div>
+                                            <div className={`w-full h-[2px] bg-gray-300`}>
+                                                <div className={`progress-after w-full h-full bg-primary transition-all duration-[500ms] ${direction === "backwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep <= i ? "max-w-0" : "max-w-full"}`}></div>
+                                            </div>
+                                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[14px] aspect-square border-full border-2 border-solid rounded-full transition-all duration-[500ms] delay-[500ms] ease ${activeStep >= i ? "bg-primary border-primary " : "bg-gray-300 border-gray-300"}`}></div>
+                                        </div>
+                                    </div>
+                                })
+                            }
+                        </div>
+                    </div>
+                    <div className="w-full grow overflow-y-auto overflow-x-hidden scrollbar-needed px-4">
+                        <div className="w-full h-fit mb-4">
+                            <h1 className="font-serif text-[2em] font-semibold text-dark">{steps[activeStep]}</h1>
+                            <p className="text-lightText">{formConfig.length > 0 ? formConfig[activeStep].description : null}</p>
+                        </div>
+
+                        {/* Main Input Form */}
+                        <form ref={formRef}
+                            onSubmit={
+                                (e) => {
+                                    try {
+                                        e.preventDefault();
+                                        setDirection("forwards");
+                                        setActiveStep(activeStep + 1);
+                                    } catch (e) { }
+                                }
+                            }
+                            className={`w-full h-fit grid gap-4 mb-4 ${formConfig.length > 0 && !formConfig[activeStep].multiple ? "grid-cols-" + formConfig[activeStep].gridCols : "grid-cols-1"}`}>
+                            {/* Inputs */}
+
+                            {
+                                // If everything is available
+                                formConfig.length > 0 && formConfig[activeStep].fields ?
+                                    // If Multiple entry 
+                                    formConfig[activeStep].multiple ?
+                                        // For Each Data entry
+                                        formData[activeStep].data.map((d, idx) => {
+                                            return (
+                                                <div key={idx} className="w-full h-fit flex flex-col border-2 border-solid border-lightDarker rounded-md px-10 py-2 overflow-hidden" >
+                                                    {/* For Each Input */}
+                                                    {formConfig[activeStep].withHeading ?
+                                                        <div className="flex flex-row justify-between items-center">
+                                                            <div className="w-fit h-fit flex flex-col justify-center items-start">
+                                                                <h1 className="text-[1em] font-serif text-lightText uppercase">{d.Job_Title ? d.Job_Title : "Job Title"}</h1>
+                                                                <p className="text-[0.7em] font-serif text-lightText">{d.Start_Date ? d.Start_Date.split("-")[1] + "/" + d.Start_Date.split("-")[0] : "MM/YYYY"} - {d.End_Date ? d.End_Date.split("-")[1] + "/" + d.End_Date.split("-")[0] : "MM/YYYY"}</p>
+                                                            </div>
+                                                            <div className="flex flex-row shrink-0 gap-x-4">
+                                                                <div
+                                                                    onClick={(e) => {
+                                                                        const previous = [...formData];
+                                                                        const active = previous[activeStep];
+                                                                        active.entries -= 1;
+                                                                        active.data.splice(idx, 1);
+                                                                        setFormData(previous);
+                                                                    }}
+                                                                    className="cursor-pointer transition-all duration-200 hover:text-[#b00] text-lightText"><Trash2 strokeWidth={1.5} size={20} /></div>
+                                                                <input type="checkbox" id={`collapse-${idx}`} hidden
+                                                                    onChange={(e) => {
+                                                                        const underlying_element = e.target.parentNode.parentNode.parentNode.children[1];
+                                                                        const label = e.target.parentNode.children[2];
+                                                                        if (e.target.checked) {
+                                                                            underlying_element.classList.add("max-h-0", "opacity-0");
+                                                                            underlying_element.classList.remove("py-4");
+                                                                            label.classList.remove("rotate-[180deg]");
+                                                                        }
+                                                                        else {
+                                                                            underlying_element.classList.remove("max-h-0", "opacity-0");
+                                                                            underlying_element.classList.add("py-4");
+                                                                            label.classList.add("rotate-[180deg]");
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <label
+                                                                    htmlFor={`collapse-${idx}`}
+                                                                    className="cursor-pointer transition-all duration-200 rotate-[180deg] text-lightText hover:text-primary"><ChevronDown size={20} strokeWidth={1.5} /></label>
+                                                            </div>
+                                                        </div>
+                                                        :
+                                                        <div className="w-full h-fit flex justify-end items-center pt-2">
+                                                            <div
+                                                                onClick={(e) => {
+                                                                    const previous = [...formData];
+                                                                    const active = previous[activeStep];
+                                                                    active.entries -= 1;
+                                                                    active.data.splice(idx, 1);
+                                                                    setFormData(previous);
+                                                                }}
+                                                                className="cursor-pointer transition-all duration-200 hover:text-[#b00] text-lightText"><Trash2 strokeWidth={1.5} size={20} /></div>
+
+                                                        </div>
+                                                    }
+                                                    <div className={`w-full h-fit grid gap-4 ${formConfig[activeStep].multiple && formConfig[activeStep].withHeading ? "py-4" : null}`} style={{ gridTemplateColumns: "repeat(" + formConfig[activeStep].gridCols + ",1fr)" }}>
+                                                        {
+                                                            formConfig[activeStep].fields.map(({ name, type, required, multiple, className, ...f }) => {
+                                                                return (
+                                                                    <div key={name} className={`flex flex-col justify-between min-w-0 items-start gap-y-2 ${className ? className : null}`}>
+                                                                        <label className="text-dark uppercase">{name.replaceAll("_", " ")}{required ? <span className="text-red-600 text-[1.5em]/[1]">*</span> : null}</label>
+                                                                        <input name={name} type={type} required={required}
+                                                                            value={formData ? formData[activeStep].data[idx] ? formData[activeStep].data[idx][name] : null : null}
+                                                                            onChange={(e) => {
+                                                                                const newFormData = formData.map((stepdata, id) => {
+                                                                                    if (id === activeStep) {
+                                                                                        const value = { ...stepdata };
+                                                                                        value.data[idx][name] = e.target.value;
+                                                                                        return value;
+                                                                                    }
+                                                                                    else
+                                                                                        return stepdata;
+                                                                                });
+                                                                                setFormData(newFormData);
+                                                                            }}
+                                                                            className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                                    </div>);
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>);
+                                        })
+                                        :
+                                        // If Single entry
+                                        formConfig[activeStep].fields.map(({ name, type, required, multiple, className, ...f }) => {
+                                            return (
+                                                <div className={`flex flex-col justify-between items-start gap-y-2 ${className}`}>
+                                                    <label className="text-dark uppercase">{name.replaceAll("_", " ")}{required ? <span className="text-red-600 text-[1.5em]/[1]">*</span> : null}</label>
+                                                    <input name={name} type={type} required={required}
+                                                        value={formData ? formData[activeStep].data ? formData[activeStep].data[name] : null : null}
+                                                        onChange={(e) => {
+                                                            const newFormData = formData.map((stepdata, id) => {
+                                                                if (id === activeStep) {
+                                                                    return {
+                                                                        ...stepdata,
+                                                                        data: {
+                                                                            ...stepdata.data,
+                                                                            [name]: e.target.value
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                    return stepdata;
+                                                            });
+                                                            setFormData(newFormData);
+                                                        }}
+                                                        className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                </div>);
+                                        })
+                                    :
+                                    // Everything is not available
+                                    null
+                            }
+                        </form>
+                        {
+                            formConfig.length > 0 && formConfig[activeStep].multiple ?
+                                <button
+                                    onClick={(e) => {
+                                        const previous = [...formData];
+                                        const active = previous[activeStep];
+                                        active.data.push({});
+                                        active.entries += 1;
+                                        setFormData(previous);
+                                    }}
+                                    className={`flex gap-x-2 text-up-container px-4 py-2 rounded-xl bg-white text-primary font-normal border-2 border-solid border-primary ${activeStep > 0 ? "visible" : "invisible pointer-events-none"}`}>
+                                    <Plus size={20} className="text-primary" />
+                                    <div className="text-up text-[1.1rem]/[1] font-semibold">
+                                        <span className="text">Add {formConfig[activeStep].name}</span>
+                                        <span className="text">Add {formConfig[activeStep].name}</span>
+                                    </div>
+                                </button> : null
+                        }
+                    </div>
+                    <div className="w-full h-fit flex flex-none justify-between items-center">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setDirection("backwards");
+                                setActiveStep(activeStep - 1);
+                            }}
+                            className={`text-up-container px-6 py-4 rounded-xl bg-white text-dark font-normal border-2 border-solid border-lightText ${activeStep > 0 ? "visible" : "invisible pointer-events-none"}`}>
+                            <div className="text-up text-[1.1rem]/[1]">
+                                <span className="text">Back: {steps[activeStep - 1] ? steps[activeStep - 1] : null}</span>
+                                <span className="text">Back: {steps[activeStep - 1] ? steps[activeStep - 1] : null}</span>
+                            </div>
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                formRef.current.requestSubmit();
+                            }}
+                            className="text-up-container px-6 py-4 rounded-xl bg-primary text-white font-normal">
+                            <div className="text-up text-[1.1rem]/[1]">
+                                <span className="text">{activeStep != (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Finalize"}</span>
+                                <span className="text">{activeStep != (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Finalize"}</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="w-full h-screen bg-[#eef2f9] overflow-auto scrollbar-needed flex justify-center items-center">
+                <div className="w-fit h-full relative group scrollbar-needed py-10">
+                    <div className="relative w-full h-fit flex justify-between items-center bg-gray-100 px-2 rounded-t-lg text-[1em] shadow-xl">
+                        <div className="flex gap-x-2 w-fit h-fit justify-start items-center">
+                            <div className="bg-[#fba86d] text-white px-[10px] py-[2px] rounded-lg">40%</div>
+                            Your Resume Score 😊
+                        </div>
+                        <div
+                            onClick={(e) => {
+                                navigate("/templates");
+                            }}
+                            className="cursor-pointer w-fit h-fit px-4 py-2 flex gap-x-2 bg-white text-primary font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200"><LayoutDashboardIcon strokeWidth={1} />Change Template</div>
+                        <div className="absolute top-0 right-0 translate-x-[125%] flex flex-col gap-y-2">
+                            <button
+                                onClick={() => {
+                                    const resumeElement = document.querySelector(".template");
+                                    import("html2canvas").then(html2canvas => {
+                                        import("jspdf").then(jsPDF => {
+                                            html2canvas.default(resumeElement, {
+                                                scale: 2, useCORS: true,
+                                                allowTaint: true,
+                                                logging: false,
+                                                backgroundColor: "#ffffff"
+                                            }).then(canvas => {
+                                                const imgData = canvas.toDataURL("image/png");
+                                                const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                                                const pdfWidth = pdf.internal.pageSize.getWidth();
+                                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                                                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                                                pdf.save("My_Resume.pdf");
+                                            });
+                                        });
+                                    });
+                                }}
+                                title="Save as PDF"
+                                className="cursor-pointer w-fit h-fit px-[10px] py-[5px] flex gap-x-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="none" viewBox="0 0 33 32" className="rightSide_innerFormatIcon__ebXf7" data-sentry-element="PdfIcon" data-sentry-source-file="RightSide.tsx"><path fill="#F1F9FE" d="M28.443 9.792v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098m8.629 8.56c0-.778-.312-1.525-.868-2.076l-5.667-5.623a2.97 2.97 0 0 0-2.094-.861"></path><path stroke="#2E404A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.7" d="m16.599 25.872-4.442-4.407m4.442 4.407 4.441-4.407M16.6 25.872v-8.814m11.844-7.266v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098c.786 0 1.539.31 2.094.86l5.667 5.624c.556.55.868 1.298.868 2.077"></path><path fill="#FFD2DD" d="M19.655 6.86H2.628A2.12 2.12 0 0 0 .5 8.97v7.033a2.12 2.12 0 0 0 2.128 2.11h17.027a2.12 2.12 0 0 0 2.129-2.11V8.969a2.12 2.12 0 0 0-2.129-2.11"></path><path fill="#FB7E6D" d="M5.166 15.106q-.312 0-.482-.17-.17-.175-.17-.485v-3.713q0-.317.17-.486.177-.168.49-.168h1.745q.851 0 1.312.436.468.429.468 1.188 0 .76-.468 1.196-.461.429-1.312.429h-1.1v1.118q0 .31-.163.486-.163.168-.49.168m.653-2.765h.873q.369 0 .567-.154.2-.162.199-.479 0-.323-.199-.478-.198-.155-.567-.155h-.873zm3.815 2.701q-.333 0-.51-.169-.17-.175-.17-.499v-3.622q0-.324.17-.493.177-.175.51-.175h1.39q1.306 0 2.016.647.716.646.716 1.828 0 .591-.184 1.055-.184.457-.532.781a2.35 2.35 0 0 1-.859.486 3.8 3.8 0 0 1-1.156.161zm.625-1.048h.68q.377 0 .646-.091.277-.091.454-.268.184-.175.27-.443.093-.267.092-.633 0-.73-.361-1.076-.363-.351-1.1-.351h-.681zm4.577 1.111q-.312 0-.49-.168-.17-.176-.17-.5v-3.685q0-.324.17-.493.178-.175.511-.175h2.363q.255 0 .383.126.127.126.127.366 0 .245-.127.38-.128.126-.384.126h-1.738v.999h1.582q.248 0 .377.127.135.126.134.365 0 .247-.135.373-.127.127-.376.127h-1.582v1.364q0 .668-.645.668"></path></svg>
+
+                            </button>
+                            {/* Print Resume Button */}
+                            <button
+                                onClick={() => {
+                                    window.print()
+                                }}
+                                title="Print Resume"
+                                className="cursor-pointer w-fit h-fit px-[10px] py-[5px] flex gap-x-2 bg-white text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-all duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="none" viewBox="0 0 33 32" className="rightSide_innerFormatIcon__ebXf7" data-sentry-element="DocxIcon" data-sentry-source-file="RightSide.tsx"><path fill="#EDF9FF" d="M29.797 9.435v18.039c0 .779-.325 1.526-.902 2.077s-1.36.86-2.177.86H8.248c-.817 0-1.6-.309-2.177-.86a2.87 2.87 0 0 1-.902-2.077V3.81c0-.779.324-1.526.902-2.077a3.16 3.16 0 0 1 2.176-.86h12.58m8.97 8.56c0-.779-.325-1.526-.902-2.077l-5.892-5.623a3.16 3.16 0 0 0-2.177-.86"></path><path stroke="#2E404A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.7" d="m17.483 25.515-4.618-4.407m4.618 4.407 4.618-4.407m-4.618 4.407V16.7m12.314-7.267v18.04c0 .779-.325 1.526-.902 2.077s-1.36.86-2.177.86H8.248c-.817 0-1.6-.309-2.177-.86a2.87 2.87 0 0 1-.902-2.077V3.81c0-.779.324-1.526.902-2.077a3.16 3.16 0 0 1 2.176-.86h12.58c.815 0 1.598.31 2.176.86l5.892 5.623c.577.551.902 1.298.902 2.077"></path><path fill="#BDE7FF" d="M21.117 6.921H3.007A2.256 2.256 0 0 0 .743 9.17v7.494a2.256 2.256 0 0 0 2.264 2.249h18.11a2.256 2.256 0 0 0 2.264-2.249V9.17a2.256 2.256 0 0 0-2.264-2.249"></path><path fill="#05A2FF" d="M17.8 15.168q-.828 0-1.423-.317a2.2 2.2 0 0 1-.914-.893q-.312-.577-.312-1.35 0-.577.177-1.049.185-.47.524-.808.348-.339.836-.514.495-.183 1.112-.183.326 0 .673.078.354.07.623.218.198.105.276.267a.54.54 0 0 1 .05.33.63.63 0 0 1-.12.303.5.5 0 0 1-.255.183.48.48 0 0 1-.34-.05 2.2 2.2 0 0 0-.425-.147 1.6 1.6 0 0 0-.432-.056q-.44 0-.737.168-.29.162-.439.479t-.149.78.149.788q.149.316.439.486.297.162.737.162.184 0 .396-.043a2 2 0 0 0 .418-.147.58.58 0 0 1 .375-.05.48.48 0 0 1 .27.17q.105.126.134.295a.52.52 0 0 1-.05.323.55.55 0 0 1-.254.26q-.249.148-.616.232-.361.085-.723.085M12.321 15.168q-.757 0-1.33-.317a2.3 2.3 0 0 1-.893-.9q-.312-.576-.312-1.344 0-.576.177-1.047.184-.472.517-.81a2.3 2.3 0 0 1 .807-.513 2.8 2.8 0 0 1 1.034-.183q.759 0 1.325.317.573.316.892.893.32.57.319 1.344 0 .576-.184 1.048-.177.471-.517.816a2.3 2.3 0 0 1-.8.52 2.9 2.9 0 0 1-1.035.176m0-1.083q.375 0 .638-.176.263-.175.404-.507.141-.33.141-.794 0-.697-.311-1.084t-.872-.387q-.367 0-.637.176-.263.17-.403.5a2 2 0 0 0-.142.794q0 .697.311 1.09.312.388.871.388M5.386 15.09q-.333 0-.51-.169-.17-.175-.17-.5V10.8q0-.323.17-.492.177-.176.51-.176h1.388q1.304 0 2.011.647.716.647.716 1.83 0 .59-.184 1.054-.184.457-.532.781a2.35 2.35 0 0 1-.857.485q-.503.162-1.154.162zm.623-1.048h.68q.375 0 .645-.091.276-.091.453-.268.184-.176.269-.443.092-.268.092-.633 0-.732-.361-1.076-.361-.352-1.098-.352h-.68z"></path></svg>
+
+                            </button>
+                        </div>
+                    </div>
+                    <div className="w-fit h-fit shadow-xl">
+                        {
+                            template && template.path ? <LoadTemplate path={template.path} className="template w-[550px] h-[660px] text-[0.8rem]/[1] text-black/70" data={formData} /> : null
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>)
+}
+export default ResumeEditor;
