@@ -366,7 +366,7 @@ const Home = () => {
                         <div className="p-4">
                             <input type="checkbox" id="faq1" className="peer hidden" />
                             <label htmlFor="faq1" className="flex justify-between items-center cursor-pointer select-none">
-                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800">What is Tailwind CSS?</span>
+                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800 font-serif">What is BetterCV?</span>
                                 <svg className="w-5 h-5 text-gray-500 transition-transform duration-300 peer-checked:rotate-180"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -375,7 +375,7 @@ const Home = () => {
                             </label>
                             <div className="max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-40">
                                 <p className="mt-4 text-gray-600 text-[1.05em] md:text-[1.25em]">
-                                    Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build custom designs quickly.
+                                    BetterCV is an online resume builder that helps you create a professional, ATS-friendly resume in just minutes. You’ll get structured templates, AI writing support, and tools that help your resume get noticed by employers.
                                 </p>
                             </div>
                         </div>
@@ -383,7 +383,7 @@ const Home = () => {
                         <div className="p-4">
                             <input type="checkbox" id="faq2" className="peer hidden" />
                             <label htmlFor="faq2" className="flex justify-between items-center cursor-pointer select-none">
-                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800">Is Tailwind CSS better than Bootstrap?</span>
+                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800 font-serif">Do I need any design or writing experience?</span>
                                 <svg className="w-5 h-5 text-gray-500 transition-transform duration-300 peer-checked:rotate-180"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -392,7 +392,7 @@ const Home = () => {
                             </label>
                             <div className="max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-40">
                                 <p className="mt-4 text-gray-600 text-[1.05em] md:text-[1.25em]">
-                                    Tailwind is more flexible and customizable, while Bootstrap provides prebuilt components. It depends on your project needs.
+                                    Not at all. BetterCV guides you step-by-step with intuitive tools and smart suggestions. You don’t need design skills or writing expertise. Fill in your details, and we’ll help with the rest.
                                 </p>
                             </div>
                         </div>
@@ -400,7 +400,7 @@ const Home = () => {
                         <div className="p-4">
                             <input type="checkbox" id="faq3" className="peer hidden" />
                             <label htmlFor="faq3" className="flex justify-between items-center cursor-pointer select-none">
-                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800">How can I install Tailwind CSS?</span>
+                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800 font-serif">What does ATS-friendly mean?</span>
                                 <svg className="w-5 h-5 text-gray-500 transition-transform duration-300 peer-checked:rotate-180"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -409,11 +409,26 @@ const Home = () => {
                             </label>
                             <div className="max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-40">
                                 <p className="mt-4 text-gray-600 text-[1.05em] md:text-[1.25em]">
-                                    You can install Tailwind using npm, CDN, or integrate it into your build tools like Vite, Webpack, or Next.js.
+                                    ATS stands for Applicant Tracking Systems. It’s software that many companies use to scan resumes before a recruiter sees them. An ATS-friendly resume is formatted so the system can read your experience correctly and pass it on to a recruiter.
                                 </p>
                             </div>
                         </div>
-
+                        <div className="p-4">
+                            <input type="checkbox" id="faq3" className="peer hidden" />
+                            <label htmlFor="faq3" className="flex justify-between items-center cursor-pointer select-none">
+                                <span className="text-[1.1em] md:text-[1.4em]/[1] font-semibold text-gray-800 font-serif">Why do I need an ATS-friendly resume?</span>
+                                <svg className="w-5 h-5 text-gray-500 transition-transform duration-300 peer-checked:rotate-180"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </label>
+                            <div className="max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-40">
+                                <p className="mt-4 text-gray-600 text-[1.05em] md:text-[1.25em]">
+                                    If your resume isn’t optimized for ATS, it might not reach the recruiter. BetterCV helps ensure your resume gets past ATS scans and into the hands of hiring managers.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
