@@ -226,8 +226,8 @@ const Home = () => {
                                 onClick={() => { navigate("/templates") }}
                                 className="text-up-container px-6 py-4 rounded-xl bg-primary text-white font-medium">
                                 <div className="text-up text-[1.1rem]/[1]">
-                                    <span className="text">Create my resume</span>
-                                    <span className="text">Create my resume</span>
+                                    <span className="text">Build my resume</span>
+                                    <span className="text">Build my resume</span>
                                 </div>
                             </button>
                         </div>
