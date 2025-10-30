@@ -17,9 +17,27 @@ const ResumeEditor = (props) => {
     const [formConfig, setFormConfig] = useState([]);
     const [formData, setFormData] = useState([]);
     const formRef = useRef();
+    const livePreviewRef = useRef();
+    const [showPreview, setShowPreview] = useState();
+    const templateRef = useRef();
+    const [templateHeight, setTemplateHeight] = useState("auto");
 
     useEffect(() => {
         if (props.resumeData) setFormData(props.resumeData);
+    }, []);
+
+    useEffect(() => {
+        const updateHeight = () => {
+            if (templateRef.current) {
+                const width = templateRef.current.offsetWidth;
+                const height = width * (29.7 / 21); // A4 aspect ratio
+                setTemplateHeight(height + "px");
+            }
+        };
+
+        updateHeight(); // run once
+        window.addEventListener("resize", updateHeight); // recalc on resize
+        return () => window.removeEventListener("resize", updateHeight);
     }, []);
 
     useEffect(() => {
@@ -243,9 +261,7 @@ const ResumeEditor = (props) => {
                     <div className="w-full h-fit flex flex-none justify-between items-center relative">
                         <button
                             onClick={(e) => {
-                                e.preventDefault();
-                                setDirection("backwards");
-                                setActiveStep(activeStep - 1);
+                                setShowPreview(true);
                             }}
                             className={`inline-block md:hidden absolute top-0 right-0 -translate-y-[150%] text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal cursor-pointer`}>
                             <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
@@ -253,6 +269,35 @@ const ResumeEditor = (props) => {
                                 <span className="text">Preview</span>
                             </div>
                         </button>
+                        {/* Fullscreen Mobile Preview Overlay */}
+                        <div
+                            className={`fixed inset-0 z-50 px-4 py-6 bg-white transition-transform duration-700 ease-in-out ${showPreview ? "translate-y-0" : "translate-y-full"
+                                }`}
+                        >
+                            <div className="w-full h-full overflow-y-auto flex justify-center items-center p-4">
+                                {/* Close Button */}
+                                <button
+                                    onClick={() => setShowPreview(false)}
+                                    className="absolute top-4 right-4 text-dark bg-gray-100 rounded-full p-2 shadow-md hover:bg-gray-200 transition"
+                                >
+                                    ✕
+                                </button>
+
+                                {/* Inject Live Preview content */}
+                                <div className="w-fit h-fit">
+                                    {template && template.path ? (
+                                        <LoadTemplate
+                                            ref={templateRef}
+                                            path={template.path}
+                                            className={`template w-full h-[500px] text-[0.6rem]/[1] text-black/70`}
+                                            style={{ height: templateHeight }}
+                                            data={formData}
+                                        />
+                                    ) : null}
+                                </div>
+                            </div>
+                        </div>
+
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
@@ -278,7 +323,7 @@ const ResumeEditor = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="hidden md:flex w-full h-screen bg-[#eef2f9] overflow-auto scrollbar-needed justify-center items-center">
+            <div ref={livePreviewRef} className="hidden md:flex w-full h-screen bg-[#eef2f9] overflow-auto scrollbar-needed justify-center items-center">
                 <div className="w-fit h-full relative group scrollbar-needed py-10">
                     <div className="relative w-full h-fit flex justify-between items-center bg-gray-100 px-2 rounded-t-lg text-[1em] shadow-xl">
                         <div className="flex gap-x-2 w-fit h-fit justify-start items-center">
@@ -308,7 +353,7 @@ const ResumeEditor = (props) => {
                                                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
                                                 pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
                                                 const user = localStorage.getItem("user");
-                                                if(user){
+                                                if (user) {
                                                     const userJSON = JSON.parse(user);
                                                     console.log(userJSON.name);
                                                     pdf.save(`${userJSON.name}_QuickCV.pdf`);
@@ -370,7 +415,7 @@ const ResumeEditor = (props) => {
                                 title="Print Resume"
                                 className="shadow-xl cursor-pointer w-fit h-fit px-[10px] py-[5px] flex gap-x-2 bg-white text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-all duration-200"
                             >
-                                <Printer strokeWidth={1}/>
+                                <Printer strokeWidth={1} />
                             </button>
                         </div>
                     </div>
