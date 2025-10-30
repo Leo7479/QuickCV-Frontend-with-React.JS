@@ -289,7 +289,7 @@ const ResumeEditor = (props) => {
                                         <LoadTemplate
                                             ref={templateRef}
                                             path={template.path}
-                                            className={`template w-full h-[500px] text-[0.6rem]/[1] text-black/70`}
+                                            className={`w-full h-[500px] text-[0.6rem]/[1] text-black/70`}
                                             style={{ height: templateHeight }}
                                             data={formData}
                                         />
@@ -421,7 +421,7 @@ const ResumeEditor = (props) => {
                     </div>
                     <div className="w-fit h-fit shadow-xl">
                         {
-                            template && template.path ? <LoadTemplate path={template.path} className="template w-[550px] h-[660px] text-[0.8rem]/[1] text-black/70" data={formData} /> : null
+                            template && template.path ? <LoadTemplate id="mainTemplate" path={template.path} className="template w-[550px] h-[660px] text-[0.8rem]/[1] text-black/70" data={formData} /> : null
                         }
                     </div>
                 </div>

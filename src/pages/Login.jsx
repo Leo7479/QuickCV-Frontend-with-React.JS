@@ -73,7 +73,7 @@ const Login = () => {
                 type: "success", 
                 isLoading: false,
                 closeOnClick: true
-            })
+            });
             navigate('/dashboard/dashboard');
             console.log(user);
             localStorage.setItem("user", JSON.stringify({
@@ -83,7 +83,6 @@ const Login = () => {
                 avatar: "https://cdn-icons-png.flaticon.com/512/4159/4159471.png"
             }));
             localStorage.setItem("token",token);
-
         } catch (err) {
             const msg = err?.response?.data?.message || 'Login failed';
             toast.update(toastID, {

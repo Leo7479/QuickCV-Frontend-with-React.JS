@@ -27,6 +27,7 @@ import SalaryAnalyzerTab from "../components/SalaryAnalyzerTab";
 import CoachingTab from "../components/CoachingTab";
 import LinkedinOptimizer from "../components/LinkedInOptimizer";
 import UserProfile from "../components/UserProfile";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
     const { currentTab } = useParams();
@@ -119,6 +120,9 @@ const Dashboard = () => {
     const handleLogout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        toast.success("Logged Out Successfully",{
+            closeOnClick: true
+        });
         navigate("/", { replace: true });
     };
 
