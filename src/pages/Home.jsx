@@ -68,11 +68,11 @@ const Home = () => {
                                 </div>
                             </button>
                             <button
-                                onClick={() => { navigate("/templates") }}
+                                onClick={() => { navigate("/ats-checker") }}
                                 className="text-up-container text-primary bg-white before-filler filler-primary hover:text-white font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                 <div className="text-up">
-                                    <span className="text">Improve My Resume</span>
-                                    <span className="text">Improve My Resume</span>
+                                    <span className="text">Check ATS Score</span>
+                                    <span className="text">Check ATS Score</span>
                                 </div>
                             </button>
                         </div>
@@ -171,8 +171,8 @@ const Home = () => {
                             onClick={() => { navigate("/templates") }}
                             className="text-up-container text-[1.1em]/[1] bg-primary px-4 py-2 rounded-xl text-white">
                             <div className="text-up">
-                                <span className="text">Create My Resume</span>
-                                <span className="text">Create My Resume</span>
+                                <span className="text">Build My Resume</span>
+                                <span className="text">Build My Resume</span>
                             </div>
                         </button>
                     </div>

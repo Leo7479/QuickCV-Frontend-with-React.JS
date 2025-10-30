@@ -9,6 +9,7 @@ import api, { setAuthToken } from '../services/api';
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [showpassword, setShowPassword] = useState(false);
+    const userDetailsFormRef = useRef(null);
     const navigate = useNavigate();
     const handleShowPassword=(e)=>{
         if(showpassword)
@@ -21,6 +22,15 @@ const Login = () => {
         if(token)
             navigate("/dashboard/dashboard")
     },[]);
+    useEffect(()=>{
+        const parent = userDetailsFormRef.current;
+        const forms = parent.children;
+        if(isLogin){
+            parent.style.height=forms[1].clientHeight+"px";
+        }else{
+            parent.style.height=forms[0].clientHeight+"px";
+        }
+    },[isLogin]);
     const handleSignUp = async (e) => {
         e.preventDefault();
         // grab values from DOM or better: control them with useState.
@@ -86,11 +96,11 @@ const Login = () => {
         <div className="w-screen h-screen grid place-items-center" style={{ backgroundImage: "linear-gradient(100deg, var(--alice-blue), white, var(--alice-blue))" }}>
             <button
                 onClick={() => { navigate("/") }}
-                className="flex justify-center items-center cursor-pointer gap-x-2 hover:text-white hover:bg-primary transition-all duration-200 absolute top-10 left-10 bg-white text-primary px-4 py-2 rounded-lg">
+                className="flex justify-center items-center cursor-pointer gap-x-2 hover:text-white hover:bg-primary transition-all duration-200 absolute top-10 left-10 z-[1] bg-white text-primary px-4 py-2 rounded-lg">
                 <ArrowLeftCircleIcon />
                 Home
             </button>
-            <div className="flex flex-row items-center shadow-xl rounded-xl px-14 py-10 bg-white relative">
+            <div className="flex flex-row items-center shadow-xl rounded-xl px-4 py-2 md:px-8 md:py-6 lg:px-14 lg:py-10 bg-white relative">
                 <div className={`transition-all duration-700 w-fit h-fit absolute top-0 -translate-y-[50%] ${isLogin ? "left-[90%] translate-x-[50%]" : "left-0 -translate-x-[50%]"} rotate-[15deg]`}>
                     <img src="./liquid_bubble.png" alt="" className="w-[5em] object-contain" />
                 </div>
@@ -102,11 +112,11 @@ const Login = () => {
                         <video src="./pulse-ball.mp4" autoPlay playsInline muted loop disablePictureInPicture aria-disabled />
                     </div>
                 </div>
-                <div className={` transition-all duration700 px-4 ${isLogin ? "border-l-2 border-l-solid border-l-gray-200" : "border-r-2 border-r-solid border-r-gray-200"}`}>
-                    <div className="w-full h-fit flex flex-row justify-center items-center pb-2">
+                <div className={` transition-all duration700 px-4 ${isLogin ? "md:border-l-2 md:border-l-solid md:border-l-gray-200" : "md:border-r-2 md:border-r-solid md:border-r-gray-200"}`}>
+                    <div className="w-fit h-fit flex flex-row justify-center items-center mb-2 bg-lightDarker p-[5px] rounded-2xl mx-auto">
                         <button
                             onClick={() => { setIsLogin(true) }}
-                            className={`transition-all duration-200 text-up-container font-semibold text-lg/[1] px-4 py-2 outline-none rounded-xl ${isLogin ? "bg-primary text-white glow glow-primary" : ""}`}>
+                            className={`transition-all duration-200 text-up-container font-semibold text-lg/[1] px-4 py-2 outline-none rounded-xl ${isLogin ? "bg-white" : ""}`}>
                             <div className="text-up">
                                 <span className="text">Login</span>
                                 <span className="text">Login</span>
@@ -114,16 +124,16 @@ const Login = () => {
                         </button>
                         <button
                             onClick={() => { setIsLogin(false) }}
-                            className={`transition-all duration-200 text-up-container font-semibold text-lg/[1] px-4 py-2 outline-none rounded-xl ${isLogin ? "" : "bg-primary text-white glow glow-primary"}`}>
+                            className={`transition-all duration-200 text-up-container font-semibold text-lg/[1] px-4 py-2 outline-none rounded-xl ${isLogin ? "" : "bg-white"}`}>
                             <div className="text-up">
                                 <span className="text">Sign Up</span>
                                 <span className="text">Sign Up</span>
                             </div>
                         </button>
                     </div>
-                    <div className="overflow-hidden w-[25em] h-[20em]">
-                        <div className={`transition-all duration-[700ms] flex justify-end items-start w-[25em] ${isLogin ? "" : "translate-x-[100%]"}`}>
-                            <div className={`scrollbar-needed overflow-y-auto overflow-x-hidden py-4 w-[25em] h-[20em] shrink-0 ${isLogin ? "opacity-0" : ""}`}>
+                    <div className="overflow-hidden w-[25em] h-fit">
+                        <div ref={userDetailsFormRef} className={`transition-all duration-[700ms] flex justify-end items-start w-[25em] h-min ${isLogin ? "" : "translate-x-[100%]"}`}>
+                            <div className={`scrollbar-needed overflow-y-auto overflow-x-hidden py-4 w-[25em] h-fit shrink-0 ${isLogin ? "opacity-0" : ""}`}>
                                 <div className="px-10 w-[25em] h-fit">
                                     {/* Sign Up Form */}
                                     <form method="POST" action="/login" className="w-full flex flex-col gap-y-4">
@@ -158,7 +168,7 @@ const Login = () => {
                                     </form>
                                 </div>
                             </div>
-                            <div className={`scrollbar-needed overflow-y-auto overflow-x-hidden flex flex-col py-4 w-[25em] h-[20em] shrink-0 ${isLogin ? "" : "opacity-0"}`}>
+                            <div className={`scrollbar-needed overflow-y-auto overflow-x-hidden flex flex-col py-4 w-[25em] h-fit shrink-0 ${isLogin ? "" : "opacity-0"}`}>
                                 <div className="w-[25em] px-10 h-fit">
                                     {/* Login Form */}
                                     <form className="flex flex-col gap-y-4">
