@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Routing />
-      <ToastContainer position='bottom-right'/>
+      <ToastContainer position='top-center'/>
     </>
   );
 }

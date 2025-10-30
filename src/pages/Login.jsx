@@ -33,7 +33,6 @@ const Login = () => {
     },[isLogin]);
     const handleSignUp = async (e) => {
         e.preventDefault();
-        // grab values from DOM or better: control them with useState.
         const email = document.getElementById('signinemail').value.trim();
         const name = document.getElementById('signinname').value.trim();
         const password = document.getElementById('signinpassword').value;
@@ -59,14 +58,22 @@ const Login = () => {
         e.preventDefault();
         const email = document.getElementById('loginemail').value.trim();
         const password = document.getElementById('loginpassword').value;
-        if (!email || !password) return toast.error('Enter email and password');
+        if (!email) return toast.error('Enter email address',{closeOnClick: true});
+        if (!password) return toast.error('Enter password',{closeOnClick: true});
         console.log("Sending login request with:", { email, password });
+        const toastID = toast.loading("Logging In");
         try {
             const res = await api.post('/api/auth/login', { email, password });
             console.log(res);
             const { token, user } = res.data;
             setAuthToken(token);
-            toast.success('Logged in Successfully');
+            toast.update(toastID, {
+                render: "Logged in Successfully",
+                autoClose: 3000,
+                type: "success", 
+                isLoading: false,
+                closeOnClick: true
+            })
             navigate('/dashboard/dashboard');
             console.log(user);
             localStorage.setItem("user", JSON.stringify({
@@ -79,7 +86,13 @@ const Login = () => {
 
         } catch (err) {
             const msg = err?.response?.data?.message || 'Login failed';
-            toast.error(msg);
+            toast.update(toastID, {
+                render: msg,
+                autoClose: 3000,
+                type: "error", 
+                isLoading: false,
+                closeOnClick: true
+            })
         }
     };
     // to call protected GET /auth/me
@@ -207,15 +220,15 @@ const Login = () => {
                                     <div className="relative text-lightText w-full h-fit my-2 text-center before:content-[''] before:inline-block before:absolute before:top-[50%] before:left-[50%] before:-translate-x-[50%] before:-translate-y-[50%] before:w-full before:h-[2px] before:bg-lightText before:z-0"><span className="bg-white relative z-[1] uppercase px-[4px]">or login with</span></div>
                                     <div className="flex flex-col gap-y-[4px]">
                                         <div className="cursor-pointer flex justify-center items-center gap-x-2 h-fit w-full border-2 border-solid border-gray-200 rounded-md bg-gray-50 px-6 py-2">
-                                            <img src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0" className="w-[1.5em] aspect-square object-contain" />
+                                            <img src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0" alt="Google" className="w-[1.5em] aspect-square object-contain" />
                                             <p>Google</p>
                                         </div>
                                         <div className="cursor-pointer flex justify-center items-center gap-x-2 h-fit w-full border-2 border-solid border-gray-200 rounded-md bg-gray-50 px-6 py-2">
-                                            <img src="https://logopng.com.br/logos/apple-4.png" className="w-[1.5em] aspect-square object-contain" />
+                                            <img src="https://logopng.com.br/logos/apple-4.png" alt="Apple" className="w-[1.5em] aspect-square object-contain" />
                                             <p>Apple</p>
                                         </div>
                                         <div className="cursor-pointer flex justify-center items-center gap-x-2 h-fit w-full border-2 border-solid border-gray-200 rounded-md bg-gray-50 px-6 py-2">
-                                            <img src="https://pngimg.com/uploads/linkedIn/linkedIn_PNG7.png" className="w-[1.5em] aspect-square object-contain" />
+                                            <img src="https://pngimg.com/uploads/linkedIn/linkedIn_PNG7.png" alt="LinkedIn" className="w-[1.5em] aspect-square object-contain" />
                                             <p>LinkedIn</p>
                                         </div>
                                     </div>
