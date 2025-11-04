@@ -51,8 +51,8 @@ const Home = () => {
         <>
             <Header />
             <main>
-                <section id="hero" className="w-full h-[87vh] md:h-[89vh] lg:h-[90vh] bg-aliceBlue px-10 pt-6 max-h-[950px]">
-                    <div className="grid grid-cols-2 grid-rows-[9fr_1fr] max-w-[1440px] w-full h-full mx-auto  ">
+                <section id="hero" className="w-full h-[87vh] md:h-[89vh] lg:h-[90vh] bg-aliceBlue px-10 pt-6 max-h-[950px] min-h-fit">
+                    <div className="grid grid-cols-2 grid-rows-[9fr_1fr] max-w-[1440px] w-full h-full mx-auto min-h-fit ">
                         <div className="w-full h-full flex flex-col justify-center items-start gap-y-8 mx-auto">
                             <div className="flex justify-start items-center gap-x-2">
                                 <span className="w-2 h-2 rounded-full bg-[#00bb00] animate-blink duration-300"></span>
@@ -195,7 +195,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14">
-                    <div className="w-full max-w-[1440px] h-[100vh] max-h-[950px] mx-auto  px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
+                    <div className="w-full max-w-[1440px] h-[100vh] min-h-fit max-h-[950px] mx-auto  px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
                         <div className="relative h-full bg-aliceBlue rounded-lg shadow-lg w-full md:w-[55%] xl:w-[40%] overflow-hidden grid place-items-center">
                             <div className="w-full h-fit relative grid place-items-center">
                                 <div className="w-fit overflow-visible absolute -top-[20%] left-[5%]"><img src="./template-pic2.webp" alt="" className="w-[10em] max-w-none relative z-[0] shadow-xl rounded-lg" /></div>
