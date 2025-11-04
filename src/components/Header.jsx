@@ -13,8 +13,8 @@ const Header = ()=>{
         }
     },[]);
     return(
-        <header className="w-full min-h-[60px] h-[13vh] md:h-[11vh] lg:h-[10vh] sticky top-0 left-0 z-[10]">
-            <nav className="w-full h-full flex justify-between items-center px-8 shadow-lg shadow-aliceBlue/60 bg-white">
+        <header className="w-full min-h-[60px] h-[13vh] md:h-[11vh] lg:h-[10vh] max-h-[100px] sticky top-0 left-0 z-[10] shadow-lg">
+            <nav className="w-full max-w-[1920px] mx-auto h-full flex justify-between items-center px-8 shadow-aliceBlue/60 bg-white">
                 <div className="w-fit h-full flex items-center justify-start cursor-pointer" onClick={()=>{navigate("/")}}>
                     <img src="./logo.png" alt=""/>
                     <h1 className="font-semibold text-2xl text-[#3a3a3a]">QuickCV</h1>

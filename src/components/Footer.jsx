@@ -1,7 +1,7 @@
 const Footer = ()=>{
     return(
         <footer className="w-full h-fit bg-dark py-20 mt-20">
-            <div className="py-4 px-2 w-full h-fit flex flex-col md:flex-row text-aliceBlue justify-start md:justify-around items-start">
+            <div className="py-4 max-[1920px]:px-2 w-full h-fit flex flex-col md:flex-row text-aliceBlue justify-start md:justify-around items-start max-w-[1920px] mx-auto">
                 <div className="w-[25%] h-full flex flex-col items-start justify-start">
                     <div className="flex">
                     <img src="./logo.png" alt=""/>
