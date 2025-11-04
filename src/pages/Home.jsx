@@ -158,6 +158,18 @@ const Home = () => {
                                     <div className="w-[100px] h-[30px] aspect-square"><img className="object-contain w-full h-full" src="./goldman-sachs.png" alt="" /></div>
                                     <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./american-express.png" alt="" /></div>
                                 </div>
+                                <div className="w-fit flex justify-center md:justify-start items-center gap-x-4 marque-elements">
+                                    <div className="w-[100px] h-[40px] aspect-square"><img className="object-contain w-full h-full" src="./google.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./facebook.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./amazon.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./spotify.png" alt="" /></div>
+                                    <div className="w-[100px] h-[50px] aspect-square"><img className="object-contain w-full h-full" src="./apple.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./microsoft.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./dhl.png" alt="" /></div>
+                                    <div className="w-[100px] h-[30px] aspect-square"><img className="object-contain w-full h-full" src="./sbi.png" alt="" /></div>
+                                    <div className="w-[100px] h-[30px] aspect-square"><img className="object-contain w-full h-full" src="./goldman-sachs.png" alt="" /></div>
+                                    <div className="w-[100px] h-[70px] aspect-square"><img className="object-contain w-full h-full" src="./american-express.png" alt="" /></div>
+                                </div>
                             </div>
                         </div>
                     </div>
