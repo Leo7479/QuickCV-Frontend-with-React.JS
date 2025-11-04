@@ -109,17 +109,20 @@ button{
   .reviews.active-review{
     transform: scale(1);
   }
+  .template{
+    pointer-events: none;
+  }
   .template-container{
     transition: all 100ms ease-in-out;
     cursor: pointer;
     position: relative;
   }
   .template-container .hover-container{
-    content: '';
     transform: scaleY(0);
     @apply absolute top-0 left-0 w-full h-full bg-black/20 transition-all origin-bottom duration-200 ease-in-out;
   }
-  .template-container:hover .hover-container{
+  .template-container:hover .hover-container,
+  .template-container:has(*:hover) .hover-container{
     transform: scaleY(1);
   }
   .templates-container:has(.template-container:hover) .template-container:not(:hover){

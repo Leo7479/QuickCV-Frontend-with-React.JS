@@ -16,6 +16,7 @@ import { LoadingContext } from "../components/LoadingContext.js";
 const Home = () => {
     const [reviews, setReviews] = useState([]);
     const { loading, setLoading } = useContext(LoadingContext);
+    const [activeTemplate, setActiveTemplate] = useState(0);
     const navigate = useNavigate();
     const templatesContainerRef = useRef();
     const activateReviews = async () => {
@@ -66,7 +67,7 @@ const Home = () => {
                             </div>
                             <div className="w-full h-fit flex justify-start items-center gap-x-4">
                                 <button
-                                    onClick={() => { setLoading(true);navigate("/templates"); }}
+                                    onClick={() => { setLoading(true); navigate("/templates"); }}
                                     className="text-up-container text-[0.9em]/[0.9] md:text-[1.1em]/[0.9] px-4 md:px-6 py-4 bg-primary rounded-xl text-white glow-primary outline-none">
                                     <div className="text-up">
                                         <span className="text">Create New Resume</span>
@@ -74,7 +75,7 @@ const Home = () => {
                                     </div>
                                 </button>
                                 <button
-                                    onClick={() => { setLoading(true);navigate("/ats-checker") }}
+                                    onClick={() => { setLoading(true); navigate("/ats-checker") }}
                                     className="text-up-container text-primary bg-white before-filler filler-primary hover:text-white font-semibold text-[0.9em]/[0.9] md:text-[1.1em]/[1.1] px-4 md:px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                     <div className="text-up">
                                         <span className="text">Check ATS Score</span>
@@ -187,7 +188,7 @@ const Home = () => {
                         </div>
                         <div className="w-fit text-[0.7em]/[1.2] whitespace-wrap md:text-[1.5em] flex justify-center items-center gap-x-[4px] md:gap-x-2"><span className="w-fit p-2 bg-glow text-primary rounded-lg animate-shine font-serif font-semibold"><p className="relative z-[1] w-fit">1209</p></span> people are creating their resumes with QuickCV right now!</div>
                         <button
-                            onClick={() => { setLoading(true);navigate("/templates") }}
+                            onClick={() => { setLoading(true); navigate("/templates") }}
                             className="text-up-container text-[0.7em]/[0.7] md:text-[1.1em]/[1] bg-primary px-4 py-2 rounded-xl text-white">
                             <div className="text-up">
                                 <span className="text">Build Resume</span>
@@ -242,7 +243,7 @@ const Home = () => {
                                 </div>
                             </div>
                             <button
-                                onClick={() => { setLoading(true);navigate("/templates") }}
+                                onClick={() => { setLoading(true); navigate("/templates") }}
                                 className="text-up-container px-6 py-4 rounded-xl bg-primary text-white font-medium">
                                 <div className="text-up text-[0.7em]/[0.7] md:text-[1.1rem]/[1]">
                                     <span className="text">Build my resume</span>
@@ -253,79 +254,92 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14 flex justify-center">
-                    <div className="relative w-full h-fit text-white p-8 flex flex-col justify-center items-center bg-dark">
+                    <div className="relative w-full h-fit text-white p-4 md:p-8 flex flex-col justify-center items-center bg-dark">
                         <div className="absolute w-full h-full left-[50%] -translate-x-[50%]" style={{ backgroundImage: "radial-gradient(at 50% 150%,#05a2ff77 1px, transparent 70%" }}>
                         </div>
                         <div className="w-full h-full relative flex flex-col justify-center items-center gap-y-4">
                             <h1 className="text-[1.3em]/[1] md:text-[2.5em]/[1] font-semibold font-serif">Choose your resume template, AI will do the rest</h1>
                             <p className="text-md text-white/80">With BetterCV’s AI resume generator, you’ll get a professional, typo-free, and ATS-friendly resume ready in no time. Explore 40+ modern templates.</p>
                             <button
-                                onClick={() => { setLoading(true);navigate("/templates") }}
+                                onClick={() => { setLoading(true); navigate("/templates") }}
                                 className="text-up-container px-6 py-4 rounded-xl bg-white text-primary font-medium before-filler filler-primary hover:text-white">
                                 <div className="text-up text-[1.1rem]/[1]">
                                     <span className="text">View all templates</span>
                                     <span className="text">View all templates</span>
                                 </div>
                             </button>
-                            <div ref={templatesContainerRef} className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8 templates-container">
-                                <div className="w-full h-fit absolute z-[2] top-[50%] left-0 -translate-y-[50%]  flex justify-between items-center">
+                            <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8 templates-container">
+                                <div className="absolute inset-0 w-full h-fit z-[2] top-[50%] left-0 -translate-y-[50%]  flex justify-between items-center">
                                     <div
-                                    onClick={(e)=>{
-                                        const totalTemplates = templatesContainerRef.current.children.length - 1;
-                                        templatesContainerRef.current.style.left -= 400;
-                                    }}
-                                    className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                        onClick={(e) => {
+                                            const totalTemplates = templatesContainerRef.current.children.length;
+                                            templatesContainerRef.current.style.left = (-(activeTemplate - 1) * 300) + "px";
+                                            console.log(templatesContainerRef.current.style.left);
+                                            setActiveTemplate(activeTemplate - 1);
+                                        }}
+                                        className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveLeftIcon />
                                     </div>
-                                    <div className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                    <div
+                                        onClick={(e) => {
+                                            const totalTemplates = templatesContainerRef.current.children.length;
+                                            templatesContainerRef.current.style.left = (-(activeTemplate + 1) * 300) + "px";
+                                            console.log(templatesContainerRef.current.style.left);
+                                            setActiveTemplate(activeTemplate + 1);
+                                        }}
+                                        className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveRightIcon />
                                     </div>
                                 </div>
-                                <div className="w-fit h-fit template-container pl-[20px]">
-                                    <DefaultTemplate className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                    <div className="flex justify-center items-center hover-container">
-                                        <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                            <div className="text-up">
-                                                <span className="text">Use This Template</span>
-                                                <span className="text">Use This Template</span>
-                                            </div>
-                                        </button>
+                                <div className="w-full h-fit overflow-x-auto">
+                                <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px]">
+                                    <div className="w-fit h-fit template-container">
+                                        <DefaultTemplate className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                        <div className="flex justify-center items-center hover-container">
+                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
+                                                <div className="text-up">
+                                                    <span className="text">Use This Template</span>
+                                                    <span className="text">Use This Template</span>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="w-fit h-fit template-container">
-                                    <Template001 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                    <div className="flex justify-center items-center hover-container">
-                                        <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                            <div className="text-up">
-                                                <span className="text">Use This Template</span>
-                                                <span className="text">Use This Template</span>
-                                            </div>
-                                        </button>
+                                    <div className="w-fit h-fit template-container">
+                                        <Template001 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                        <div className="flex justify-center items-center hover-container">
+                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
+                                                <div className="text-up">
+                                                    <span className="text">Use This Template</span>
+                                                    <span className="text">Use This Template</span>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="w-fit h-fit template-container">
-                                    <Template002 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                    <div className="flex justify-center items-center hover-container">
-                                        <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                            <div className="text-up">
-                                                <span className="text">Use This Template</span>
-                                                <span className="text">Use This Template</span>
-                                            </div>
-                                        </button>
+                                    <div className="w-fit h-fit template-container">
+                                        <Template002 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                        <div className="flex justify-center items-center hover-container">
+                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
+                                                <div className="text-up">
+                                                    <span className="text">Use This Template</span>
+                                                    <span className="text">Use This Template</span>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="w-fit h-fit template-container">
-                                    <Template003 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                    <div className="flex justify-center items-center hover-container">
-                                        <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                            <div className="text-up">
-                                                <span className="text">Use This Template</span>
-                                                <span className="text">Use This Template</span>
-                                            </div>
-                                        </button>
+                                    <div className="w-fit h-fit template-container">
+                                        <Template003 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                        <div className="flex justify-center items-center hover-container">
+                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
+                                                <div className="text-up">
+                                                    <span className="text">Use This Template</span>
+                                                    <span className="text">Use This Template</span>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
+                                    {/* <Template004 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" /> */}
                                 </div>
-                                {/* <Template004 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" /> */}
+                                </div>
                             </div>
                         </div>
                     </div>

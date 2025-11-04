@@ -16,7 +16,7 @@ const Header = ()=>{
         }
     },[]);
     return(
-        <header className="w-full min-h-[60px] h-[13vh] md:h-[11vh] lg:h-[10vh] max-h-[100px] sticky top-0 left-0 z-[10]">
+        <header className="w-full min-h-[60px] h-[13vh] md:h-[11vh] lg:h-[10vh] max-h-[75px] md:max-h-[100px] sticky top-0 left-0 z-[10]">
             <nav className={`rounded-md w-full max-w-[1440px] mx-auto h-full flex justify-between items-center px-8 shadow-aliceBlue/60 bg-white `}>
                 <div className="w-fit h-full flex items-center justify-start cursor-pointer" onClick={()=>{if(pathname!=="/"){setLoading(true);navigate("/")}}}>
                     <img src="./logo.png" alt=""/>
