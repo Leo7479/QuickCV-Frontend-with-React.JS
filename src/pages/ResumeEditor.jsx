@@ -83,7 +83,7 @@ const ResumeEditor = (props) => {
                         <div className="w-fit min-w-full h-fit flex justify-around items-center py-4">
                             {
                                 steps.map((s, i) => {
-                                    return <div key={i} ref={stepRefs} className=" w-full h-full text-center">
+                                    return <div key={i} ref={stepRefs} className="w-full h-full text-center">
                                         <h1 className={`text-[0.7em]/[1] md:text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep >= i ? "text-primary" : "text-black"}`}>{s}</h1>
                                         <div className="flex justify-between items-center relative">
                                             <div className={`w-full h-[2px] bg-gray-300`}>

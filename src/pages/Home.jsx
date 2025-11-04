@@ -51,7 +51,7 @@ const Home = () => {
             <Header />
             <main>
                 <section id="hero" className="w-full h-[87vh] md:h-[89vh] lg:h-[90vh] bg-aliceBlue px-10 pt-6 max-h-[950px]">
-                    <div className="grid grid-cols-2 grid-rows-[9fr_1fr] max-w-[1920px] w-full h-full mx-auto  ">
+                    <div className="grid grid-cols-2 grid-rows-[9fr_1fr] max-w-[1440px] w-full h-full mx-auto  ">
                         <div className="w-full h-full flex flex-col justify-center items-start gap-y-8 mx-auto">
                             <div className="flex justify-start items-center gap-x-2">
                                 <span className="w-2 h-2 rounded-full bg-[#00bb00] animate-blink duration-300"></span>
@@ -194,7 +194,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14">
-                    <div className="w-full max-w-[1920px] h-[100vh] max-h-[950px] mx-auto  px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
+                    <div className="w-full max-w-[1440px] h-[100vh] max-h-[950px] mx-auto  px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
                         <div className="relative h-full bg-aliceBlue rounded-lg shadow-lg w-full md:w-[55%] xl:w-[40%] overflow-hidden grid place-items-center">
                             <div className="w-full h-fit relative grid place-items-center">
                                 <div className="w-fit overflow-visible absolute -top-[20%] left-[5%]"><img src="./template-pic2.webp" alt="" className="w-[10em] max-w-none relative z-[0] shadow-xl rounded-lg" /></div>
@@ -314,8 +314,8 @@ const Home = () => {
                         </div>
                     </div>
                 </section>
-                <section className="w-full h-fit bg-aliceBlue mt-14 py-10 max-[1920px]:px-6">
-                    <div className="flex flex-col justify-start items-center max-w-[1920px] mx-auto  ">
+                <section className="w-full h-fit bg-aliceBlue mt-14 py-10 max-[1440px]:px-6">
+                    <div className="flex flex-col justify-start items-center max-w-[1440px] mx-auto  ">
                         <h1 className="text-[1.3rem]/[1] md:text-[2.3rem]/[1] lg:text-[3rem]/[1] font-serif font-bold text-dark text-center">What our customers are <span>saying about us</span></h1>
                         <div className="w-full flex flex-row gap-x-2 mt-8 justify-around items-center">
                             <div className="w-[30%] h-fit flex flex-col gap-y-6">
@@ -360,7 +360,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14 flex justify-center">
-                    <div className="relative max-w-[1200px]   w-[75%] h-fit text-white rounded-2xl p-8 flex flex-col justify-center items-center bg-dark">
+                    <div className="relative max-w-[1200px]  w-[75%] h-fit text-white rounded-2xl p-8 flex flex-col justify-center items-center bg-dark">
                         <div className="absolute w-full h-full left-[50%] -translate-x-[50%]" style={{ backgroundImage: "radial-gradient(at 50% 150%,#05a2ff77 1px, transparent 70%" }}>
                         </div>
                         <div className="absolute w-full h-full" style={{ backgroundImage: "url(./landing-banner.webp", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}></div>
@@ -379,7 +379,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14">
-                    <div className="flex flex-col justify-center items-center max-w-[1920px] mx-auto">
+                    <div className="flex flex-col justify-center items-center max-w-[1440px] mx-auto">
                         <h1 className="w-full h-fit text-[1.3em]/[1] md:text-[2.5em]/[1] font-serif text-center text-primary mb-10">Frequently Asked Questions</h1>
                         <div className="w-full max-w-[1000px] bg-white rounded-2xl divide-y divide-gray-200">
                             <div className="p-4">
