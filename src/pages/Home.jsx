@@ -269,7 +269,7 @@ const Home = () => {
                                 </div>
                             </button>
                             <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8">
-                                <div className="absolute inset-0 w-full h-fit z-[2] top-[50%] left-0 -translate-y-[50%]  flex justify-between items-center">
+                                <div className="absolute inset-0 w-full h-fit z-[5] top-[50%] left-0 -translate-y-[50%]  flex justify-between items-center">
                                     <div
                                         onClick={(e) => {
                                             const totalTemplates = templatesContainerRef.current.children.length;
@@ -292,7 +292,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="w-full h-fit overflow-x-auto">
-                                <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px]  templates-container">
+                                <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px] transition-all duration-200  templates-container">
                                     <div className="w-fit h-fit template-container">
                                         <DefaultTemplate className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
                                         <div className="flex justify-center items-center hover-container">
