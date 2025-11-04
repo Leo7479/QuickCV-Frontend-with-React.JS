@@ -263,7 +263,7 @@ const ResumeEditor = (props) => {
                         }
                     </div>
                     <div className="w-full h-fit flex flex-none justify-between items-center relative">
-                        <div className="flex justify-end gap-x-2 items-center w-full h-fit absolute top-0 left-0 w-full -translate-y-[125%]">
+                        <div className="flex md:hidden justify-end gap-x-2 items-center w-full h-fit absolute top-0 left-0 w-full -translate-y-[125%]">
                             <button
                                 onClick={(e) => {
                                     const resumeElement = document.querySelector(".mobiletemplate");
@@ -302,7 +302,7 @@ const ResumeEditor = (props) => {
                                 onClick={(e) => {
                                     setShowPreview(true);
                                 }}
-                                className={`inline-block md:hidden  text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal cursor-pointer`}>
+                                className={`text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal cursor-pointer`}>
                                 <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
                                     <span className="text">Preview</span>
                                     <span className="text">Preview</span>
