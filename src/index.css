@@ -56,7 +56,7 @@ button{
   }
   .before-filler::before{
     content:'';
-    @apply absolute top-0 -left-[100%] w-full h-full transition-all duration-200;
+    @apply absolute top-0 -left-[100%] w-full h-full transition-all duration-200 pointer-events-none;
   }
   .filler-primary::before{
     @apply bg-primary;
@@ -111,23 +111,28 @@ button{
   }
   .template{
     pointer-events: none;
+    z-index: 2;
   }
   .template-container{
     transition: all 100ms ease-in-out;
-    cursor: pointer;
     position: relative;
+    z-index: 3;
   }
   .template-container .hover-container{
     transform: scaleY(0);
+    pointer-events: none;
     @apply absolute top-0 left-0 w-full h-full bg-black/20 transition-all origin-bottom duration-200 ease-in-out;
   }
-  .template-container:hover .hover-container,
-  .template-container:has(*:hover) .hover-container{
+  .template-container .hover-container:hover{
     transform: scaleY(1);
   }
-  .templates-container:has(.template-container:hover) .template-container:not(:hover){
-    filter:blur(2px);
+  .template-container:hover .hover-container{
+    transform: scaleY(1);
+    pointer-events: auto;
   }
+  /* .templates-container:has(.template-container:hover) .template-container:not(:hover){
+    filter:blur(2px);
+  } */
   .template-container:hover{
     /* transform: scale(1.05); */
     box-shadow: 0 0 10px 2px var(--glow);
