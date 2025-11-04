@@ -5,7 +5,7 @@ const DeveloperWarning = ()=>{
     const devWarningRef = useRef();
     return(
         <div ref={devWarningRef} className="w-screen h-screen overflow-hidden fixed top-0 left-0 z-[100] backdrop-blur-[10px] grid place-items-center">
-            <div className="w-[450px] h-fit flex flex-col p-4 bg-[#a44] rounded-lg">
+            <div className="w-[300px] md:w-[450px] h-fit flex flex-col p-4 bg-[#a44] rounded-lg">
                 <div className="w-full h-fit text-white flex justify-end items-center"><div
                 onClick={(e)=>{
                     devWarningRef.current.classList.add("hidden","pointer-events-none");

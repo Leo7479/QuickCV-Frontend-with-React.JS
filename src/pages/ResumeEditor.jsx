@@ -22,7 +22,7 @@ const ResumeEditor = (props) => {
     const [showPreview, setShowPreview] = useState();
     const templateRef = useRef();
     const [templateHeight, setTemplateHeight] = useState("auto");
-    const {loading, setLoading} = useContext(LoadingContext);
+    const { loading, setLoading } = useContext(LoadingContext);
 
     useEffect(() => {
         if (props.resumeData) setFormData(props.resumeData);
@@ -76,7 +76,7 @@ const ResumeEditor = (props) => {
 
     useEffect(() => {
         console.log(formData);
-        
+
     }, [formData]);
 
     return (
@@ -263,16 +263,52 @@ const ResumeEditor = (props) => {
                         }
                     </div>
                     <div className="w-full h-fit flex flex-none justify-between items-center relative">
-                        <button
-                            onClick={(e) => {
-                                setShowPreview(true);
-                            }}
-                            className={`inline-block md:hidden absolute top-0 right-0 -translate-y-[150%] text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal cursor-pointer`}>
-                            <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
-                                <span className="text">Preview</span>
-                                <span className="text">Preview</span>
-                            </div>
-                        </button>
+                        <div className="flex justify-end gap-x-2 items-center w-full h-fit absolute top-0 left-0 w-full -translate-y-[125%]">
+                            <button
+                                onClick={(e) => {
+                                    const resumeElement = document.querySelector(".mobiletemplate");
+                                    import("html2canvas").then(html2canvas => {
+                                        import("jspdf").then(jsPDF => {
+                                            html2canvas.default(resumeElement, {
+                                                scale: 2, useCORS: true,
+                                                allowTaint: true,
+                                                logging: false,
+                                                backgroundColor: "#ffffff"
+                                            }).then(canvas => {
+                                                const imgData = canvas.toDataURL("image/png");
+                                                const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                                                const pdfWidth = pdf.internal.pageSize.getWidth();
+                                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                                                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                                                const user = localStorage.getItem("user");
+                                                if (user) {
+                                                    const userJSON = JSON.parse(user);
+                                                    console.log(userJSON.name);
+                                                    pdf.save(`${userJSON.name}_QuickCV.pdf`);
+                                                }
+                                                else
+                                                    pdf.save("My_Resume_QuickCV.pdf");
+                                                toast.success("Pdf Downloaded");
+                                            });
+                                        });
+                                    });
+                                }} className="border-2 border-solid border-primary text-primary px-4 py-2 md:px-6 md:py-4 rounded-xl text-up-container">
+                                <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
+                                    <span className="text">Download PDF</span>
+                                    <span className="text">Download PDF</span>
+                                </div>
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    setShowPreview(true);
+                                }}
+                                className={`inline-block md:hidden  text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal cursor-pointer`}>
+                                <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
+                                    <span className="text">Preview</span>
+                                    <span className="text">Preview</span>
+                                </div>
+                            </button>
+                        </div>
                         {/* Fullscreen Mobile Preview Overlay */}
                         <div
                             className={`fixed inset-0 z-50 px-4 py-6 bg-white transition-transform duration-700 ease-in-out ${showPreview ? "translate-y-0" : "translate-y-full"
@@ -293,7 +329,7 @@ const ResumeEditor = (props) => {
                                         <LoadTemplate
                                             ref={templateRef}
                                             path={template.path}
-                                            className={`w-full h-[500px] text-[0.6rem]/[1] text-black/70`}
+                                            className={`mobiletemplate w-full h-[500px] text-[0.6rem]/[1] text-black/70`}
                                             style={{ height: templateHeight }}
                                             data={formData}
                                         />
