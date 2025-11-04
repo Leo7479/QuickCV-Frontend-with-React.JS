@@ -1,14 +1,23 @@
 import { FileBox, FileChartLine, PlusSquare, Search, Trophy } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DashboardTab = () => {
+    const [user, setUser] = useState();
+    useEffect(()=>{
+        try{
+            setUser(JSON.parse(localStorage.getItem("user")));
+        }catch(e){
+
+        }
+    },[]);
     const navigate = useNavigate();
     return (
         <div className="w-full h-full relative overflow-x-hidden overflow-y-auto">
             <div className="absolute top-0 left-0 w-full h-[20%] z-[-1]" style={{ backgroundImage: "linear-gradient(to bottom, #d7f0ff, white 70%)" }}></div>
             <div className="w-full h-fit py-10 px-20">
                 <div className="w-full h-fit py-4 flex flex-col justify-center items-start border-b-2 border-b-solid">
-                    <h1 className="font-serif text-dark text-[2em] font-semibold">Welcome, Name!</h1>
+                    <h1 className="font-serif text-dark text-[2em] font-semibold">Welcome, {user?.name.split(" ")[0]}!</h1>
                     <p className="text-lightText">Let's get you ready for your next career chapter.</p>
                 </div>
                 <div className="w-full h-fit py-4 flex flex-col gap-y-4">
