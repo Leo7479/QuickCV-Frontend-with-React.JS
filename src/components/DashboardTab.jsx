@@ -1,16 +1,22 @@
 import { FileBox, FileChartLine, PlusSquare, Search, Trophy } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LoadingContext } from "./LoadingContext";
 
 const DashboardTab = () => {
     const [user, setUser] = useState();
+    const { loading, setLoading } = useContext(LoadingContext);
+    useEffect(() => {
+        setLoading(true);
+        try {
+            setTimeout(()=>{setUser(JSON.parse(localStorage.getItem("user")))},1000);
+        } catch (e) {        }
+    }, []);
     useEffect(()=>{
-        try{
-            setUser(JSON.parse(localStorage.getItem("user")));
-        }catch(e){
-
+        if(user){
+            setLoading(false);
         }
-    },[]);
+    },[user])
     const navigate = useNavigate();
     return (
         <div className="w-full h-full relative overflow-x-hidden overflow-y-auto">
@@ -111,7 +117,7 @@ const DashboardTab = () => {
                             </div>
                         </button>
                         <div className="w-full h-[250px]">
-                            <img src="/interview-banner.webp" alt="" className="w-full h-full object-cover"/>
+                            <img src="/interview-banner.webp" alt="" className="w-full h-full object-cover" />
                         </div>
                     </div>
                     <div className="w-[50%] h-fit flex flex-col justify-center items-center pt-10 px-10 bg-aliceBlue gap-y-2">
@@ -126,7 +132,7 @@ const DashboardTab = () => {
                             </div>
                         </button>
                         <div className="w-full h-[250px]">
-                            <img src="/linkedin-banner.webp" alt="" className="w-full h-full object-cover"/>
+                            <img src="/linkedin-banner.webp" alt="" className="w-full h-full object-cover" />
                         </div>
                     </div>
                 </div>

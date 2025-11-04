@@ -2,7 +2,7 @@ import { ArrowBigDownDash, MousePointer, MoveLeft, PackageSearch, Quote, ShieldC
 import Header from "../components/Header.jsx";
 import DefaultTemplate from "../templates/DefaultTemplate.jsx";
 import ReviewCard from "../components/ReviewCard.jsx";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GetReviews from "../GetReviews.js";
 import Template001 from "../templates/Template001.jsx";
 import Template002 from "../templates/Template002.jsx";
@@ -10,9 +10,11 @@ import Template003 from "../templates/Template003.jsx";
 // import Template004 from "./templates/Template004.jsx";
 import Footer from "../components/Footer.jsx";
 import { useNavigate } from "react-router-dom";
+import { LoadingContext } from "../components/LoadingContext.js";
 
 const Home = () => {
     const [reviews, setReviews] = useState([]);
+    const { loading, setLoading } = useContext(LoadingContext);
     const navigate = useNavigate();
     const activateReviews = async () => {
         const reviewsRef = document.querySelectorAll(".reviews");
@@ -192,7 +194,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="w-full h-fit mt-14">
-                    <div className="w-full max-w-[1920px] h-[100vh] max-h-[950px] mx-auto   px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
+                    <div className="w-full max-w-[1920px] h-[100vh] max-h-[950px] mx-auto  px-2 md:px-4 xl:px-8 min-[1920px]:px-0 flex justify-center min-[1920px]:justify-between items-center gap-x-20">
                         <div className="relative h-full bg-aliceBlue rounded-lg shadow-lg w-full md:w-[55%] xl:w-[40%] overflow-hidden grid place-items-center">
                             <div className="w-full h-fit relative grid place-items-center">
                                 <div className="w-fit overflow-visible absolute -top-[20%] left-[5%]"><img src="./template-pic2.webp" alt="" className="w-[10em] max-w-none relative z-[0] shadow-xl rounded-lg" /></div>

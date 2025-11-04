@@ -8,8 +8,7 @@ const DeveloperWarning = ()=>{
             <div className="w-[450px] h-fit flex flex-col p-4 bg-[#a44] rounded-lg">
                 <div className="w-full h-fit text-white flex justify-end items-center"><div
                 onClick={(e)=>{
-                    console.log(devWarningRef.current);
-                    devWarningRef.current.classList.add("hidden");
+                    devWarningRef.current.classList.add("hidden","pointer-events-none");
                 }}
                 className=" cursor-pointer w-fit h-fit hover:bg-white hover:text-black rounded-md transition-all duration-100"><XIcon/></div></div>
                 <div className="flex gap-y-2 flex-col items-center justify-start py-4">
