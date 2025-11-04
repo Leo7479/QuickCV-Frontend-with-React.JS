@@ -16,7 +16,7 @@ const ReviewCard = ({ name, image, quote, stars, extraClass }) => {
         }
     }
     return (
-        <div className={"relative max-w-[400px] shadow-xl cursor-pointer h-fit bg-white rounded-b-2xl p-6 border-t-4 border-t-solid border-t-dark flex flex-col justify-start items-center gap-y-6 shrink-0"+" "+extraClass}>
+        <div className={"relative max-w-[250px] md:max-w-[400px] shadow-xl cursor-pointer h-fit bg-white rounded-b-2xl p-6 border-t-4 border-t-solid border-t-dark flex flex-col justify-start items-center gap-y-6 shrink-0"+" "+extraClass}>
             <div className="w-full h-fit flex flex-col justify-start items-start gap-y-4">
                 <div className="w-full h-fit flex gap-x-4">
                     <span className="w-fit h-fit">

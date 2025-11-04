@@ -37,7 +37,7 @@ button{
     @apply w-full h-[1.1em] flex flex-col justify-start items-center overflow-hidden;
   }
   .text-up .text{
-    @apply transition-all duration-200;
+    @apply transition-all duration-200 whitespace-nowrap;
   }
   .text-up .text:last-child{
     opacity: 0;
