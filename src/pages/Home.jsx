@@ -38,6 +38,7 @@ const Home = () => {
         } catch (e) { }
     };
     useEffect(() => {
+        setLoading(false);
         setReviews(GetReviews());
     }, []);
     useEffect(() => {
@@ -63,7 +64,7 @@ const Home = () => {
                             </div>
                             <div className="w-full h-fit flex justify-start items-center gap-x-4">
                                 <button
-                                    onClick={() => { navigate("/templates") }}
+                                    onClick={() => { setLoading(true);navigate("/templates"); }}
                                     className="text-up-container text-[1.1em]/[0.9] px-6 py-4 bg-primary rounded-xl text-white glow-primary outline-none">
                                     <div className="text-up">
                                         <span className="text">Create a New Resume</span>
@@ -71,7 +72,7 @@ const Home = () => {
                                     </div>
                                 </button>
                                 <button
-                                    onClick={() => { navigate("/ats-checker") }}
+                                    onClick={() => { setLoading(true);navigate("/ats-checker") }}
                                     className="text-up-container text-primary bg-white before-filler filler-primary hover:text-white font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                     <div className="text-up">
                                         <span className="text">Check ATS Score</span>
@@ -184,7 +185,7 @@ const Home = () => {
                         </div>
                         <div className="text-[1.5em] flex justify-center items-center gap-x-2"><span className="p-2 bg-glow text-primary rounded-lg animate-shine font-serif font-semibold"><p className="relative z-[1]">1209</p></span> people are creating their resumes with QuickCV right now!</div>
                         <button
-                            onClick={() => { navigate("/templates") }}
+                            onClick={() => { setLoading(true);navigate("/templates") }}
                             className="text-up-container text-[1.1em]/[1] bg-primary px-4 py-2 rounded-xl text-white">
                             <div className="text-up">
                                 <span className="text">Build My Resume</span>
@@ -239,7 +240,7 @@ const Home = () => {
                                 </div>
                             </div>
                             <button
-                                onClick={() => { navigate("/templates") }}
+                                onClick={() => { setLoading(true);navigate("/templates") }}
                                 className="text-up-container px-6 py-4 rounded-xl bg-primary text-white font-medium">
                                 <div className="text-up text-[1.1rem]/[1]">
                                     <span className="text">Build my resume</span>
@@ -257,7 +258,7 @@ const Home = () => {
                             <h1 className="text-[1.3em]/[1] md:text-[2.5em]/[1] font-semibold font-serif">Choose your resume template, AI will do the rest</h1>
                             <p className="text-md text-white/80">With BetterCV’s AI resume generator, you’ll get a professional, typo-free, and ATS-friendly resume ready in no time. Explore 40+ modern templates.</p>
                             <button
-                                onClick={() => { navigate("/templates") }}
+                                onClick={() => { setLoading(true);navigate("/templates") }}
                                 className="text-up-container px-6 py-4 rounded-xl bg-white text-primary font-medium before-filler filler-primary hover:text-white">
                                 <div className="text-up text-[1.1rem]/[1]">
                                     <span className="text">View all templates</span>

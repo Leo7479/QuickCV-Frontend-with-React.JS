@@ -5,19 +5,26 @@ import Template001 from "../templates/Template001";
 import Template002 from "../templates/Template002";
 import Template003 from "../templates/Template003";
 import GetTemplates from "../GetTemplates";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LoadTemplate from "../LoadTemplate";
+import { LoadingContext } from "../components/LoadingContext";
 
 const Templates = () => {
     const navigate = useNavigate();
+    const {loading, setLoading} = useContext(LoadingContext);
     const [templates, setTemplates] = useState(null);
     useEffect(() => {
         setTemplates(GetTemplates());
     }, []);
+    useEffect(()=>{
+        if(templates){
+            setLoading(false);
+        }
+    },[templates]);
     return (
         <div className="px-2 md:px-4 lg:px-6 py-2 flex flex-col">
             <div className="px-2 w-fit h-full flex items-center justify-start mb-10 cursor-pointer" onClick={
-                () => { navigate("/") }
+                () => { setLoading(true);navigate("/") }
             }>
                 <img src="./logo.png" alt="" />
                 <h1 className="font-semibold text-2xl text-[#3a3a3a]">QuickCV</h1>
@@ -49,7 +56,7 @@ const Templates = () => {
                                     <LoadTemplate path={t.path} className="template h-[600px] text-[0.65rem]/[1] text-black/70" />
                                     <div className="flex justify-center items-center hover-container">
                                         <button
-                                        onClick={()=>{navigate(`/resume/edit/${t.id}`)}}
+                                        onClick={()=>{setLoading(true);navigate(`/resume/edit/${t.id}`)}}
                                         className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                             <div className="text-up">
                                                 <span className="text">Use This Template</span>

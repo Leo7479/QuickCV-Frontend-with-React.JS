@@ -7,10 +7,7 @@ const DashboardTab = () => {
     const [user, setUser] = useState();
     const { loading, setLoading } = useContext(LoadingContext);
     useEffect(() => {
-        setLoading(true);
-        try {
-            setTimeout(()=>{setUser(JSON.parse(localStorage.getItem("user")))},1000);
-        } catch (e) {        }
+        setUser(JSON.parse(localStorage.getItem("user")));
     }, []);
     useEffect(()=>{
         if(user){
@@ -30,7 +27,7 @@ const DashboardTab = () => {
                     <div className="w-full h-fit flex justify-between items-center">
                         <h1 className="text-[1.4em] text-dark font-serif">Your Documents</h1>
                         <button
-                            onClick={() => { navigate("/templates") }}
+                            onClick={() => { setLoading(true);navigate("/templates") }}
                             className="text-up-container px-4 py-2 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <PlusSquare />
                             <div className="text-up text-[1rem]/[1]">
@@ -62,7 +59,7 @@ const DashboardTab = () => {
                                 <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">No Resumes Created Yet!</h1>
                                 <p className="text-[0.9em]/[1] text-lightText">Create a resume that opens doors. Click “New Resume” to begin.</p>
                                 <button
-                                    onClick={() => { navigate("/templates") }}
+                                    onClick={() => { setLoading(true);navigate("/templates") }}
                                     className="text-up-container px-4 py-2 mt-8 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                                     <PlusSquare />
                                     <div className="text-up text-[1rem]/[1]">
@@ -78,7 +75,7 @@ const DashboardTab = () => {
                     <div className="w-full h-fit flex justify-between items-center">
                         <h1 className="text-[1.4em] text-dark font-serif">Browse Other Templates</h1>
                         <button
-                            onClick={() => { navigate("/templates") }}
+                            onClick={() => { setLoading(true);navigate("/templates") }}
                             className="text-up-container px-4 py-2 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <Search />
                             <div className="text-up text-[1rem]/[1]">
@@ -93,7 +90,7 @@ const DashboardTab = () => {
                             <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">Visit more templates!</h1>
                             <p className="text-[0.9em]/[1] text-lightText">Your recently visited templates will show up here.</p>
                             <button
-                                onClick={() => { navigate("/templates") }}
+                                onClick={() => { setLoading(true);navigate("/templates") }}
                                 className="text-up-container px-4 py-2 mt-8 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                                 <Search />
                                 <div className="text-up text-[1rem]/[1]">
@@ -109,7 +106,7 @@ const DashboardTab = () => {
                         <h1 className="font-serif text-[1.4rem] text-dark font-semibold">Get Interview Guide Now!</h1>
                         <p className="text-black/70 text-center">Receive a guide created by top recruiters. Learn to make an impressive self-introduction and master the most effective interview techniques</p>
                         <button
-                            onClick={() => { navigate("/dashboard/interview-prep") }}
+                            onClick={() => { setLoading(true);navigate("/dashboard/interview-prep") }}
                             className="text-up-container px-4 py-4 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <div className="text-up text-[1rem]/[1]">
                                 <span className="text">Get It Now</span>
@@ -124,7 +121,7 @@ const DashboardTab = () => {
                         <h1 className="font-serif text-[1.4rem] text-dark font-semibold">LinkedIn Profile Boosting!</h1>
                         <p className="text-black/70 text-center">Boost your LinkedIn profile to stand out to recruiters and clients. Professional branding, clear positioning, and a strong presentation of your experience.</p>
                         <button
-                            onClick={() => { navigate("/dashboard/interview-prep") }}
+                            onClick={() => { setLoading(true);navigate("/dashboard/interview-prep") }}
                             className="text-up-container px-4 py-4 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <div className="text-up text-[1rem]/[1]">
                                 <span className="text">Get It Now</span>

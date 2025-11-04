@@ -1,36 +1,41 @@
 import { ArrowLeftCircleIcon, Eye, EyeOff } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleLogin, handleSignUp } from "../services/UserAuthentication";
 // inside your Login component file (or wherever)
 import api, { setAuthToken } from '../services/api';
+import { LoadingContext } from "../components/LoadingContext";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const { loading, setLoading } = useContext(LoadingContext);
     const [showpassword, setShowPassword] = useState(false);
     const userDetailsFormRef = useRef(null);
     const navigate = useNavigate();
-    const handleShowPassword=(e)=>{
-        if(showpassword)
+    const handleShowPassword = (e) => {
+        if (showpassword)
             setShowPassword(false)
         else
             setShowPassword(true);
     }
-    useEffect(()=>{
+    useEffect(() => {
         const token = localStorage.getItem("token");
-        if(token)
+        if (token)
             navigate("/dashboard/dashboard")
-    },[]);
-    useEffect(()=>{
+        setLoading(false);
+    }, []);
+
+
+    useEffect(() => {
         const parent = userDetailsFormRef.current;
         const forms = parent.children;
-        if(isLogin){
-            parent.style.height=forms[1].clientHeight+"px";
-        }else{
-            parent.style.height=forms[0].clientHeight+"px";
+        if (isLogin) {
+            parent.style.height = forms[1].clientHeight + "px";
+        } else {
+            parent.style.height = forms[0].clientHeight + "px";
         }
-    },[isLogin]);
+    }, [isLogin]);
     const handleSignUp = async (e) => {
         e.preventDefault();
         const email = document.getElementById('signinemail').value.trim();
@@ -58,8 +63,8 @@ const Login = () => {
         e.preventDefault();
         const email = document.getElementById('loginemail').value.trim();
         const password = document.getElementById('loginpassword').value;
-        if (!email) return toast.error('Enter email address',{closeOnClick: true});
-        if (!password) return toast.error('Enter password',{closeOnClick: true});
+        if (!email) return toast.error('Enter email address', { closeOnClick: true });
+        if (!password) return toast.error('Enter password', { closeOnClick: true });
         console.log("Sending login request with:", { email, password });
         const toastID = toast.loading("Logging In");
         try {
@@ -70,7 +75,7 @@ const Login = () => {
             toast.update(toastID, {
                 render: "Logged in Successfully",
                 autoClose: 3000,
-                type: "success", 
+                type: "success",
                 isLoading: false,
                 closeOnClick: true
             });
@@ -82,13 +87,13 @@ const Login = () => {
                 title: "Frontend Developer",
                 avatar: "https://cdn-icons-png.flaticon.com/512/4159/4159471.png"
             }));
-            localStorage.setItem("token",token);
+            localStorage.setItem("token", token);
         } catch (err) {
             const msg = err?.response?.data?.message || 'Login failed';
             toast.update(toastID, {
                 render: msg,
                 autoClose: 3000,
-                type: "error", 
+                type: "error",
                 isLoading: false,
                 closeOnClick: true
             })
@@ -113,12 +118,6 @@ const Login = () => {
                 Home
             </button>
             <div className="flex flex-row items-center shadow-xl rounded-xl px-4 py-2 md:px-8 md:py-6 lg:px-14 lg:py-10 bg-white relative">
-                <div className={`transition-all duration-700 w-fit h-fit absolute top-0 -translate-y-[50%] ${isLogin ? "left-[90%] translate-x-[50%]" : "left-0 -translate-x-[50%]"} rotate-[15deg]`}>
-                    <img src="./liquid_bubble.png" alt="" className="w-[5em] object-contain" />
-                </div>
-                <div className={`transition-all duration-700 w-fit h-fit absolute bottom-0 translate-y-[50%] ${isLogin ? "left-0 -translate-x-[50%]" : "left-[90%] translate-x-[50%]"} rotate-[15deg]`}>
-                    <img src="./blue-squares.png" alt="" className="w-[5em] object-contain" />
-                </div>
                 <div className={`hidden md:inline-block w-60 h-60 transition-all duration-[700ms] overflow-hidden ${isLogin ? "max-w-60 mr-10" : "max-w-0"}`}>
                     <div className="w-60 h-60">
                         <video src="./pulse-ball.mp4" autoPlay playsInline muted loop disablePictureInPicture aria-disabled />
@@ -192,15 +191,15 @@ const Login = () => {
                                             <label htmlFor="loginpassword">Password<span className="text-red-600 text-[1.5em]/[1] ml-1">*</span></label>
                                             <div className="w-full h-fit relative border-2 border-solid border-[#e2e2e2] rounded-xl bg-[#f7f9fc] flex justify-between items-cneter py-2 px-4">
                                                 <input onChange={handleShowPassword} type="checkbox" id="showpassword" hidden />
-                                                <input type={showpassword?"text":"password"} id="loginpassword" required placeholder="Your Password Here" className="bg-transparent outline-none text-[1.1em] w-[80%]" />
+                                                <input type={showpassword ? "text" : "password"} id="loginpassword" required placeholder="Your Password Here" className="bg-transparent outline-none text-[1.1em] w-[80%]" />
                                                 <label htmlFor="showpassword" className="cursor-pointer">
-                                                    {showpassword?<Eye strokeWidth={1}/>:<EyeOff strokeWidth={1}/>}
+                                                    {showpassword ? <Eye strokeWidth={1} /> : <EyeOff strokeWidth={1} />}
                                                 </label>
                                             </div>
                                         </div>
                                         <div className="flex justify-between items-center w-full">
                                             <div className="flex gap-x-[2px] items-center justify-start w-fit">
-                                                <input type="checkbox" id="rememberMe" className="cursor-pointer"/>
+                                                <input type="checkbox" id="rememberMe" className="cursor-pointer" />
                                                 <label htmlFor="rememberMe" className="cursor-pointer">Remember Me</label>
                                             </div>
                                             <Link to="#" className="cursor-pointer">

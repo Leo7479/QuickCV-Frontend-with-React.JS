@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import LoadTemplate from "../LoadTemplate";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import GetTemplates from "../GetTemplates";
 import GetFormConfig from "../GetFormConfig";
 import { ChevronDown, LayoutDashboardIcon, Plus, Printer, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import { LoadingContext } from "../components/LoadingContext";
 
 const ResumeEditor = (props) => {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ResumeEditor = (props) => {
     const [showPreview, setShowPreview] = useState();
     const templateRef = useRef();
     const [templateHeight, setTemplateHeight] = useState("auto");
+    const {loading, setLoading} = useContext(LoadingContext);
 
     useEffect(() => {
         if (props.resumeData) setFormData(props.resumeData);
@@ -69,10 +71,12 @@ const ResumeEditor = (props) => {
         }
         loadTemplate();
         loadForm();
+        setLoading(false);
     }, []);
 
     useEffect(() => {
         console.log(formData);
+        
     }, [formData]);
 
     return (
@@ -332,6 +336,7 @@ const ResumeEditor = (props) => {
                         </div>
                         <div
                             onClick={(e) => {
+                                setLoading(true);
                                 navigate("/templates");
                             }}
                             className="cursor-pointer w-fit h-fit px-4 py-2 flex gap-x-2 bg-white text-primary font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200"><LayoutDashboardIcon strokeWidth={1} />Change Template</div>
