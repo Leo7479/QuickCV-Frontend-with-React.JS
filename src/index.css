@@ -113,23 +113,32 @@ button{
     pointer-events: none;
     z-index: 2;
   }
+  .template *{
+    pointer-events: none;
+  }
   .template-container{
     transition: all 100ms ease-in-out;
     position: relative;
-    z-index: 3;
+    isolation: isolate;
   }
   .template-container .hover-container{
     transform: scaleY(0);
     pointer-events: none;
+    z-index: 100;
     @apply absolute top-0 left-0 w-full h-full bg-black/20 transition-all origin-bottom duration-200 ease-in-out;
   }
-  .template-container .hover-container:hover{
-    transform: scaleY(1);
-  }
-  .template-container:hover .hover-container{
-    transform: scaleY(1);
-    pointer-events: auto;
-  }
+  .template-container:hover .hover-container,
+.template-container .hover-container:hover {
+  transform: scaleY(1);
+  opacity: 1;
+  pointer-events: all; /* clickable only when visible */
+}
+
+.hover-container button {
+  position: relative;
+  z-index: 60; /* keep above overlay background */
+  pointer-events: auto;
+}
   /* .templates-container:has(.template-container:hover) .template-container:not(:hover){
     filter:blur(2px);
   } */

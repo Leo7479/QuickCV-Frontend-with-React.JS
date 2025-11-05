@@ -11,6 +11,7 @@ import Template003 from "../templates/Template003.jsx";
 import Footer from "../components/Footer.jsx";
 import { useNavigate } from "react-router-dom";
 import { LoadingContext } from "../components/LoadingContext.js";
+import { toast } from "react-toastify";
 
 
 const Home = () => {
@@ -273,9 +274,15 @@ const Home = () => {
                                     <div
                                         onClick={(e) => {
                                             const totalTemplates = templatesContainerRef.current.children.length;
+                                            if(activeTemplate-1>=0){
                                             templatesContainerRef.current.style.left = (-(activeTemplate - 1) * 300) + "px";
                                             console.log(templatesContainerRef.current.style.left);
                                             setActiveTemplate(activeTemplate - 1);
+                                            }else{
+                                                toast.info("No more templates available",{
+                                                    closeOnClick:true
+                                                });
+                                            }
                                         }}
                                         className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveLeftIcon />
@@ -283,9 +290,15 @@ const Home = () => {
                                     <div
                                         onClick={(e) => {
                                             const totalTemplates = templatesContainerRef.current.children.length;
+                                            if(activeTemplate+1<totalTemplates){
                                             templatesContainerRef.current.style.left = (-(activeTemplate + 1) * 300) + "px";
                                             console.log(templatesContainerRef.current.style.left);
                                             setActiveTemplate(activeTemplate + 1);
+                                            }else{
+                                                toast.info("No more templates available",{
+                                                    closeOnClick:true
+                                                });
+                                            }
                                         }}
                                         className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveRightIcon />
@@ -295,7 +308,8 @@ const Home = () => {
                                 <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px] transition-all duration-200  templates-container">
                                     <div className="w-fit h-fit template-container">
                                         <DefaultTemplate className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                        <div className="flex justify-center items-center hover-container">
+                                        <div 
+                                        className="flex justify-center items-center hover-container">
                                             <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                                 <div className="text-up">
                                                     <span className="text">Use This Template</span>
