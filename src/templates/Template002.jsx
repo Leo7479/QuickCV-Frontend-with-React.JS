@@ -1,9 +1,7 @@
 import { Github, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Template002 = (props) => {
-  const firstName = props.firstName || "Shubhrajit";
-  const lastName = props.lastName || "Sarkar";
+const Template002 = ({ data, ...props }) => {
 
   return (
     <div
@@ -26,21 +24,24 @@ const Template002 = (props) => {
         {/* Info */}
         <div className="flex flex-col h-full text-left gap-y-[2%]">
           <h1 className="text-[1.4em]/[1.1] font-bold tracking-tight">
-            {firstName} {lastName}
+            {data?.[0]?.data?.First_Name}{" "}
+            {data?.[0]?.data?.Last_Name}
           </h1>
           <h3 className="text-[1em]/[1.1] font-semibold text-[#3b3b3b]">
-            Software Developer
+            {data?.[0]?.data?.Desired_Job_Title}
           </h3>
           <p className="text-[0.8]/[1] text-[#4b4b4b]">
-            Ukilpara, Raiganj, Uttar Dinajpur, 733134
+            {data?.[0]?.data?.Address}
           </p>
           <a
-            href="mailto:shubhrajitsarkar123ss@gmail.com"
+            href={`mailto:${data?.[0]?.data?.Email
+              }`}
             className="text-[0.8em]/[1] text-blue-600 underline"
           >
-            shubhrajitsarkar123ss@gmail.com
+            {data?.[0]?.data?.Email}
           </a>
-          <p className="text-[0.8em]/[1]">+91-7498975766</p>
+          <p className="text-[0.8em]/[1]">
+            | {data?.[0]?.data?.Phone}</p>
 
           <div className="flex justify-center sm:justify-start items-center gap-3">
             <Link to="#" className="text-[#0a66c2] hover:text-blue-700">
@@ -59,121 +60,69 @@ const Template002 = (props) => {
           Summary
         </h2>
         <p className="text-[0.9em]/[1] text-[#1a1a1acc] max-w-[800px] mx-auto px-4 pb-2">
-          Senior Analyst with 5+ years of experience in data analysis, business
-          intelligence, and process optimization. Skilled in driving operational
-          efficiency, forecasting, and leading data-driven strategies to support
-          business decisions and improvements. Strong communicator focused on
-          results.
+          {data?.[4]?.data?.summary}
         </p>
       </div>
 
-      <div className="grid grid-cols-[65%_32%]">
+      <div className="grid grid-cols-[60%_40%]">
         {/* ===== EXPERIENCE SECTION ===== */}
         <div className="w-full bg-[#f9fbfd] px-2 py-[2px] flex flex-col gap-y-[4px]">
           <h2 className="uppercase text-[1.1em] font-semibold text-[#004c99] text-center">
             Work Experience
           </h2>
           <div className="flex flex-col gap-[4px] mx-auto">
-            {/* Job 1 */}
-            <div className="bg-white rounded-md shadow-sm px-[4px] py-[2px] border border-[#e5e7eb]">
-              <div className="flex justify-between items-start flex-wrap">
-                <h3 className="font-bold text-[1.1em]/[1.1] font-serif text-[#222]">
-                  Senior Software Developer
-                </h3>
-                <p className="italic text-[0.8em]/[1] text-[#666]">Jul 2021 - Current</p>
-              </div>
-              <p className="italic text-[#1a1a1acc] text-[0.9em]/[1] mb-[2px]">
-                Loom & Lantern Co. - New York, NY
-              </p>
-              <ul className="list-disc list-inside text-[1em]/[1] text-[#1a1a1acc] space-y-[2px]">
-                <li><span className="mr-2">•</span>
-                  Spearhead data analysis and reporting for key business
-                  functions, identifying trends and providing insights to improve
-                  company performance and profitability.
-                </li>
-                <li><span className="mr-2">•</span>
-                  Conduct in-depth market analysis and competitive benchmarking to
-                  inform strategic decisions, resulting in a 15% increase in
-                  market share within one year.
-                </li>
-                <li><span className="mr-2">•</span>
-                  Develop predictive models to forecast sales performance and
-                  customer behavior, contributing to more accurate budgeting and
-                  resource allocation.
-                </li>
-              </ul>
-            </div>
-
-            {/* Job 2 */}
-            <div className="bg-white rounded-md shadow-sm px-[4px] py-[2px] border border-[#e5e7eb]">
-              <div className="flex justify-between items-start flex-wrap">
-                <h3 className="font-bold text-[1em]/[1.1] font-serif text-[#222]">
-                  Junior Software Developer
-                </h3>
-                <p className="italic text-[0.8em]/[1] text-[#666]">Jul 2018 - June 2021</p>
-              </div>
-              <p className="italic text-[#1a1a1acc] text-[0.8em]/[1] mb-[2px]">
-                Loom & Lantern Co. - New York, NY
-              </p>
-              <ul className="list-disc list-inside text-[1em]/[1] text-[#1a1a1acc] space-y-[2px]">
-                <li><span className="mr-2">•</span>
-                  Analyzed and interpreted large datasets to identify business
-                  opportunities and recommend process improvements, leading to a
-                  20% reduction in operational costs.
-                </li>
-                <li><span className="mr-2">•</span>
-                  Created detailed financial models and dashboards to track key
-                  performance indicators (KPIs), enabling data-driven
-                  decision-making across departments.
-                </li>
-                <li><span className="mr-2">•</span>
-                  Worked closely with project managers to monitor progress on
-                  major initiatives, ensuring projects were delivered on time and
-                  within budget.
-                </li>
-              </ul>
-            </div>
+            {data && data[1]?.data?.length > 0 ? (
+              data[1].data.map((d, i) => (
+                <div key={i} className="bg-white rounded-md shadow-sm px-[4px] py-[2px] border border-[#e5e7eb]">
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-bold text-[1em]/[1.1] font-serif">
+                      {d.Job_Title}
+                    </h3>
+                    <p className="italic text-[0.8em]/[1.1] text-[#555]">
+                      {d.Start_Date} - {d.End_Date}
+                    </p>
+                  </div>
+                  <p className="italic text-[#1a1a1acc] text-[0.9em]/[1.1] mb-[2px]">
+                    {d.Employer} - {d.Location}
+                  </p>
+                  <ul className=" text-[#1a1a1acc] space-y-[2px] pl-1 text-[0.9em]">
+                    {d.Description}
+                  </ul>
+                </div>
+              ))
+            ) : null}
           </div>
         </div>
 
-        {/* ===== EDUCATION SECTION ===== */}
         <div className="w-full bg-[#e8f0ff] py-[2px] px-[2px]">
           <div>
             <h2 className="uppercase text-[1.1em] font-semibold text-[#004c99] mb-[4px] text-center">
               Education
             </h2>
             <div className="mx-auto flex flex-col gap-[4px]">
-              <div className="bg-white rounded-lg shadow-sm p-[4px] border border-[#dce7ff]">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-[1em] w-[75%] font-bold font-serif text-[#1a1a1a]">
-                    Higher Secondary
-                  </h3>
-                  <p className="italic text-[#666] w-[20%] text-[0.7em]">2021</p>
-                </div>
-                <p className="text-[#1a1a1acc] text-[0.8em]/[1]">
-                  Raiganj Coronation High School
-                </p>
-                <p className="text-[0.7em]/[1]">
-                  <span className="text-[#555]">Score: </span>
-                  <span className="italic font-bold">95.4%</span>
-                </p>
-              </div>
+              {
+                data && data[2].data.map((d, i) => {
+                  return (
+                    <div className="bg-white rounded-lg shadow-sm p-[4px] border border-[#dce7ff]">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-[1em] w-[75%] font-bold font-serif text-[#1a1a1a]">
+                          {d.Degree}
+                        </h3>
+                        <p className="italic text-[#666] w-[20%] text-[0.7em]">{d.End_Date}</p>
+                      </div>
+                      <p className="text-[#1a1a1acc] text-[0.8em]/[1]">
+                        {d.School_Name}
+                      </p>
+                      <p className="text-[0.7em]/[1]">
+                        <span className="text-[#555]">Score: </span>
+                        <span className="italic font-bold">95.4%</span>
+                      </p>
+                      <p className="pl-[2px] text-[0.9em]/[1]">{d.Description}</p>
 
-              <div className="bg-white rounded-lg shadow-sm p-[4px] border border-[#dce7ff]">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-[1em] w-[75%] font-bold font-serif text-[#1a1a1a]">
-                    Intermediate (Matriculation)
-                  </h3>
-                  <p className="italic text-[#666] w-[20%] text-[0.7em]">2019</p>
-                </div>
-                <p className="text-[#1a1a1acc] text-[0.8em]/[1]">
-                  Raiganj Coronation High School
-                </p>
-                <p className="text-[0.7em]/[1]">
-                  <span className="text-[#555]">Score: </span>
-                  <span className="italic font-bold">90%</span>
-                </p>
-              </div>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
           {/* ===== SKILLS + LANGUAGES ===== */}
@@ -184,15 +133,11 @@ const Template002 = (props) => {
                 Skills
               </h2>
               <ul className="grid grid-cols-2 gap-x-2 gap-y-[2px] text-[0.9em][1] text-[#1a1a1acc]">
-                <li><span className="mr-2">•</span>Java</li>
-                <li><span className="mr-2">•</span>Python</li>
-                <li><span className="mr-2">•</span>C++</li>
-                <li><span className="mr-2">•</span>Spring</li>
-                <li><span className="mr-2">•</span>ReactJS</li>
-                <li><span className="mr-2">•</span>HTML</li>
-                <li><span className="mr-2">•</span>CSS</li>
-                <li><span className="mr-2">•</span>JavaScript</li>
-                <li><span className="mr-2">•</span>Node.js</li>
+                {
+                  data && data[3].data.map((d, i) => {
+                    return <li className="w-full whitespace-wrap"><span className="mr-2">•</span>{d.Skill}</li>
+                  })
+                }
               </ul>
             </div>
 
@@ -210,9 +155,6 @@ const Template002 = (props) => {
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
   );

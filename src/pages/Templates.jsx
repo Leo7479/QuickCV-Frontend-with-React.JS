@@ -8,6 +8,7 @@ import GetTemplates from "../GetTemplates";
 import { useContext, useEffect, useState } from "react";
 import LoadTemplate from "../LoadTemplate";
 import { LoadingContext } from "../components/LoadingContext";
+import DefaultTemplateConfig from "../templates/DefaultTemplateConfig";
 
 const Templates = () => {
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Templates = () => {
                         {
                             templates && templates.map((t) => {
                                 return <div className="w-full h-fit template-container">
-                                    <LoadTemplate path={t.path} className="template h-[600px] text-[0.65rem]/[1] text-black/70" />
+                                    <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template h-[600px] text-[0.65rem]/[1] text-black/70" />
                                     <div className="flex justify-center items-center hover-container">
                                         <button
                                         onClick={()=>{setLoading(true);navigate(`/resume/edit/${t.id}`)}}

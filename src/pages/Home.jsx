@@ -14,6 +14,7 @@ import { LoadingContext } from "../components/LoadingContext.js";
 import { toast } from "react-toastify";
 import GetTemplates from "../GetTemplates.js";
 import LoadTemplate from "../LoadTemplate.js";
+import DefaultTemplateConfig from "../templates/DefaultTemplateConfig.js";
 
 
 const Home = () => {
@@ -109,7 +110,7 @@ const Home = () => {
                         </div>
                         <div className="w-full h-fit md:h-full flex justify-center items-center">
                             <div className="relative w-fit h-fit">
-                                <DefaultTemplate className="w-[300px] h-[400px] md:w-[350px] md:h-[450px] glow-primary text-[0.5rem]/[1] text-black/70" />
+                                <DefaultTemplate data={DefaultTemplateConfig()} className="w-[300px] h-[400px] md:w-[350px] md:h-[450px] glow-primary text-[0.5rem]/[1] text-black/70" />
                                 <div className="absolute top-0 right-0 animate-bounce flex flex-col gap-y-2">
                                     <div className="p-2 bg-aliceBlue rounded-lg border-2 border-solid border-glow cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="none" viewBox="0 0 33 32" className="rightSide_innerFormatIcon__ebXf7" data-sentry-element="PdfIcon" data-sentry-source-file="RightSide.tsx"><path fill="#F1F9FE" d="M28.443 9.792v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098m8.629 8.56c0-.778-.312-1.525-.868-2.076l-5.667-5.623a2.97 2.97 0 0 0-2.094-.861"></path><path stroke="#2E404A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.7" d="m16.599 25.872-4.442-4.407m4.442 4.407 4.441-4.407M16.6 25.872v-8.814m11.844-7.266v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098c.786 0 1.539.31 2.094.86l5.667 5.624c.556.55.868 1.298.868 2.077"></path><path fill="#FFD2DD" d="M19.655 6.86H2.628A2.12 2.12 0 0 0 .5 8.97v7.033a2.12 2.12 0 0 0 2.128 2.11h17.027a2.12 2.12 0 0 0 2.129-2.11V8.969a2.12 2.12 0 0 0-2.129-2.11"></path><path fill="#FB7E6D" d="M5.166 15.106q-.312 0-.482-.17-.17-.175-.17-.485v-3.713q0-.317.17-.486.177-.168.49-.168h1.745q.851 0 1.312.436.468.429.468 1.188 0 .76-.468 1.196-.461.429-1.312.429h-1.1v1.118q0 .31-.163.486-.163.168-.49.168m.653-2.765h.873q.369 0 .567-.154.2-.162.199-.479 0-.323-.199-.478-.198-.155-.567-.155h-.873zm3.815 2.701q-.333 0-.51-.169-.17-.175-.17-.499v-3.622q0-.324.17-.493.177-.175.51-.175h1.39q1.306 0 2.016.647.716.646.716 1.828 0 .591-.184 1.055-.184.457-.532.781a2.35 2.35 0 0 1-.859.486 3.8 3.8 0 0 1-1.156.161zm.625-1.048h.68q.377 0 .646-.091.277-.091.454-.268.184-.175.27-.443.093-.267.092-.633 0-.73-.361-1.076-.363-.351-1.1-.351h-.681zm4.577 1.111q-.312 0-.49-.168-.17-.176-.17-.5v-3.685q0-.324.17-.493.178-.175.511-.175h2.363q.255 0 .383.126.127.126.127.366 0 .245-.127.38-.128.126-.384.126h-1.738v.999h1.582q.248 0 .377.127.135.126.134.365 0 .247-.135.373-.127.127-.376.127h-1.582v1.364q0 .668-.645.668"></path></svg>
@@ -321,7 +322,7 @@ const Home = () => {
                                         {
                                             templates && templates.map((t) => {
                                                 return <div className="w-full h-fit template-container">
-                                                    <LoadTemplate path={t.path} className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                                    <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
                                                     <div className="flex justify-center items-center hover-container">
                                                         <button
                                                             onClick={() => { setLoading(true); navigate(`/resume/edit/${t.id}`) }}

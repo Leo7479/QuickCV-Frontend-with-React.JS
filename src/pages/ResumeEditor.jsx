@@ -26,18 +26,18 @@ const ResumeEditor = (props) => {
     const { loading, setLoading } = useContext(LoadingContext);
     const [userId, setUserId] = useState(null);
 
-    async function getFormData(){
-        try{
-        const result = await api.get(`/api/user-details/${userId}`);
-        console.log(result);
-        setFormData(result.data.formData);
-        }catch(e){
+    async function getFormData() {
+        try {
+            const result = await api.get(`/api/user-details/${userId}`);
+            console.log(result);
+            setFormData(result.data.formData);
+        } catch (e) {
 
         }
     }
 
-    async function saveFormData(){
-        const result = await api.post(`/api/user-details/save/${userId}`,formData);
+    async function saveFormData() {
+        const result = await api.post(`/api/user-details/save/${userId}`, formData);
         console.log("Saved data");
     }
 
@@ -74,7 +74,7 @@ const ResumeEditor = (props) => {
                 if (!steps.includes(element.name)) {
                     steps.push(element.name);
                     if (element.multiple)
-                        output = [...output, { name: element.name, entries: 1, data: [{}] }];
+                        output = [...output, { name: element.name, entries: 1, data: [] }];
                     else
                         output = [...output, { name: element.name, data: {} }];
                 }
@@ -84,12 +84,12 @@ const ResumeEditor = (props) => {
         }
 
         async function getUserId() {
-            try{
+            try {
                 console.log("Getting user id");
                 const user = JSON.parse(localStorage.getItem("user"));
                 setUserId(user.id);
-                console.log("Got User ID ",user.id);
-            }catch(e){
+                console.log("Got User ID ", user.id);
+            } catch (e) {
                 console.log(e);
             }
         }
@@ -99,13 +99,13 @@ const ResumeEditor = (props) => {
         setLoading(false);
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(userId);
-        if(userId!==null && userId!==undefined){
-            console.log("Getting form data for User Id: ",userId);
+        if (userId !== null && userId !== undefined) {
+            console.log("Getting form data for User Id: ", userId);
             getFormData();
         }
-    },[userId]);
+    }, [userId]);
 
     useEffect(() => {
         console.log(formData);
@@ -120,16 +120,16 @@ const ResumeEditor = (props) => {
                             {
                                 steps.map((s, i) => {
                                     return <div key={i} ref={stepRefs} className="w-full h-full text-center">
-                                        <h1 className={`text-[0.7em]/[1] md:text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep === i ? "text-primary" : activeStep>i?"text-textGreen ":"text-lightText"}`}>{s}</h1>
+                                        <h1 className={`text-[0.7em]/[1] md:text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep === i ? "text-primary" : activeStep > i ? "text-textGreen " : "text-lightText"}`}>{s}</h1>
                                         <div className="flex justify-between items-center relative">
                                             <div className={`w-full h-[2px] bg-gray-300`}>
-                                                <div className={`progress-before w-full h-full transition-all duration-[500ms] ${direction === "forwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-full bg-primary" : activeStep>i?"max-w-full bg-textGreen":"max-w-0"}`}></div>
+                                                <div className={`progress-before w-full h-full transition-all duration-[500ms] ${direction === "forwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-full bg-primary" : activeStep > i ? "max-w-full bg-textGreen" : "max-w-0"}`}></div>
                                             </div>
                                             <div className={`w-full h-[2px] bg-gray-300`}>
-                                                <div className={`progress-after w-full h-full transition-all duration-[500ms] ${direction === "backwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-0" : activeStep>i? activeStep===i+1?"max-w-full bg-primary":"max-w-full bg-textGreen":"max-w-0"}`}></div>
+                                                <div className={`progress-after w-full h-full transition-all duration-[500ms] ${direction === "backwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-0" : activeStep > i ? activeStep === i + 1 ? "max-w-full bg-primary" : "max-w-full bg-textGreen" : "max-w-0"}`}></div>
                                             </div>
-                                            <div className={`absolute grid place-items-center p-[4px] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[20px] h-[20px] aspect-square border-full border-2 border-solid rounded-full transition-all duration-[500ms] delay-[500ms] ease ${activeStep === i ? "bg-primary border-primary text-white" : activeStep>i?"bg-textGreen border-textGreen ":"bg-gray-300 border-gray-300"}`}>
-                                                <Check className={`transition-all duration-200 ${i<activeStep?"opacity-100":"opacity-0"}`} strokeWidth={2} size="15px" width="10px" height="10px"/>
+                                            <div className={`absolute grid place-items-center p-[4px] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[20px] h-[20px] aspect-square border-full border-2 border-solid rounded-full transition-all duration-[500ms] delay-[500ms] ease text-white ${activeStep === i ? "bg-primary border-primary text-white" : activeStep > i ? "bg-textGreen border-textGreen " : "bg-gray-300 border-gray-300"}`}>
+                                                <Check className={`transition-all duration-200 ${i < activeStep ? "opacity-100" : "opacity-0"}`} strokeWidth={5} size="15px" width="10px" height="10px" />
                                             </div>
                                         </div>
                                     </div>
@@ -164,14 +164,14 @@ const ResumeEditor = (props) => {
                                     // If Multiple entry 
                                     formConfig[activeStep].multiple ?
                                         // For Each Data entry
-                                        formData[activeStep].data.map((d, idx) => {
+                                        formData[activeStep]?.data.map((d, idx) => {
                                             return (
                                                 <div key={idx} className="w-full h-fit flex flex-col border-2 border-solid border-lightDarker rounded-md px-2 md:px-10 py-2 overflow-hidden" >
                                                     {/* For Each Input */}
                                                     {formConfig[activeStep].withHeading ?
                                                         <div className="flex flex-row justify-between items-center">
                                                             <div className="w-fit h-fit flex flex-col justify-center items-start">
-                                                                <h1 className="text-[0.9em] md:text-[1em] font-serif text-lightText uppercase">{formData[activeStep].name==="Experience"? d.Job_Title ? d.Job_Title : "Job Title" : formData[activeStep].name==="Education"?d.Degree?d.Degree:"Education Title":null}</h1>
+                                                                <h1 className="text-[0.9em] md:text-[1em] font-serif text-lightText uppercase">{formData[activeStep].name === "Experience" ? d.Job_Title ? d.Job_Title : "Job Title" : formData[activeStep].name === "Education" ? d.Degree ? d.Degree : "Education Title" : null}</h1>
                                                                 <p className="text-[0.6em] font-serif text-lightText">{d.Start_Date ? d.Start_Date.split("-")[1] + "/" + d.Start_Date.split("-")[0] : "MM/YYYY"} - {d.End_Date ? d.End_Date.split("-")[1] + "/" + d.End_Date.split("-")[0] : "MM/YYYY"}</p>
                                                             </div>
                                                             <div className="flex flex-row shrink-0 gap-x-4">
@@ -225,21 +225,52 @@ const ResumeEditor = (props) => {
                                                                 return (
                                                                     <div key={name} className={`flex flex-col justify-between min-w-0 items-start gap-y-2 ${className ? className : null}`}>
                                                                         <label className="text-dark uppercase text-[0.8em]/[1] md:text-[1em]/[1]">{name.replaceAll("_", " ")}{required ? <span className="text-red-600 text-[1.5em]/[1]">*</span> : null}</label>
-                                                                        <input name={name} type={type} required={required}
-                                                                            value={formData ? formData[activeStep].data[idx] ? formData[activeStep].data[idx][name] : null : null}
-                                                                            onChange={(e) => {
-                                                                                const newFormData = formData.map((stepdata, id) => {
-                                                                                    if (id === activeStep) {
-                                                                                        const value = { ...stepdata };
-                                                                                        value.data[idx][name] = e.target.value;
-                                                                                        return value;
-                                                                                    }
-                                                                                    else
-                                                                                        return stepdata;
-                                                                                });
-                                                                                setFormData(newFormData);
-                                                                            }}
-                                                                            className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                                        {
+                                                                            type === "description" ?
+                                                                                <textarea name={name} required={required}
+                                                                                    
+                                                                                    onChange={(e) => {
+                                                                                        const formattedData = e.target.value?.split("\n").map((line, i)=>{
+                                                                                            if(line.length>1)
+                                                                                            line = line.slice(1);
+                                                                                            return "*"+line;
+                                                                                        })
+                                                                                        const newFormData = formData.map((stepdata, id) => {
+                                                                                            if (id === activeStep) {
+                                                                                                const value = { ...stepdata };
+                                                                                                value.data[idx][name] = e.target.value?.split("\n").map(d=>{
+                                                                                                    return d.length>1?d.slice(1):d;
+                                                                                                });
+                                                                                                return value;
+                                                                                            }
+                                                                                            else
+                                                                                                return stepdata;
+                                                                                        });
+                                                                                        console.log(newFormData);
+                                                                                        setFormData(newFormData);
+                                                                                        console.log(formattedData);
+                                                                                        e.target.value = formattedData.join("\n");
+                                                                                    }}
+                                                                                    className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} ></textarea>
+
+                                                                                :
+
+                                                                                <input name={name} type={type} required={required}
+                                                                                    value={formData ? formData[activeStep].data[idx] ? formData[activeStep].data[idx][name] : null : null}
+                                                                                    onChange={(e) => {
+                                                                                        const newFormData = formData.map((stepdata, id) => {
+                                                                                            if (id === activeStep) {
+                                                                                                const value = { ...stepdata };
+                                                                                                value.data[idx][name] = e.target.value;
+                                                                                                return value;
+                                                                                            }
+                                                                                            else
+                                                                                                return stepdata;
+                                                                                        });
+                                                                                        setFormData(newFormData);
+                                                                                    }}
+                                                                                    className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                                        }
                                                                     </div>);
                                                             })
                                                         }

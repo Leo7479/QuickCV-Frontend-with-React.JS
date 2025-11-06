@@ -11,7 +11,9 @@ const GetFormConfig = ()=>{
                 { name: "Desired_Job_Title", type: "text", required:true, placeholder: "eg: Accountant", className: "col-span-2"},
                 { name: "Address", type: "text", required:false, placeholder: "California, USA, 012345", className: "col-span-2"},
                 { name: "Phone", type: "tel", required:false, placeholder: "eg: 9999944444", pattern: "[0-9]{10}"},
-                { name: "Email", type: "email", required:true, placeholder: "eg: alex.williams@gmail.com"}
+                { name: "Email", type: "email", required:true, placeholder: "eg: alex.williams@gmail.com"},
+                { name: "LinkedIn", type: "link", required:false, placeholder: "eg: linkedin.com/alex-williams-1234"},
+                { name: "Github", type: "link", required:false, placeholder: "eg: github.com/alex-williams-1234"},
             ]
         },
         {
@@ -26,7 +28,7 @@ const GetFormConfig = ()=>{
                 { name: "Location", type: "text", required: true, placeholder: "San Francisco, CA, USA", className: "col-span-2"},
                 { name: "Start_Date", type: "month", required: false, placeholder: "MM/YYYY"},
                 { name: "End_Date", type: "month", required: false, placeholder: "MM/YYYY"},
-                { name: "Description", type: "text", required: false, placeholder: "Enter some description", className: "col-span-4"}
+                { name: "Description", type: "description", required: false, placeholder: "Enter some description", className: "col-span-4"}
             ]
         },
         {
@@ -41,6 +43,7 @@ const GetFormConfig = ()=>{
                 { name: "Degree", type: "text", required: true, placeholder: "BA in Finance and Banking", className: "col-span-2"},
                 { name: "Start_Date", type: "month", required: true, placeholder: "MM/YYYY"},
                 { name: "End_Date", type: "month", required: true, placeholder: "MM/YYYY"},
+                { name: "Score", type: "month", required: true, placeholder: "eg: 9.5/10", className:"col-span-4"},
                 { name: "Description", type: "text", required: false, placeholder: "Enter some description", className: "col-span-4"}
             ]
         },
