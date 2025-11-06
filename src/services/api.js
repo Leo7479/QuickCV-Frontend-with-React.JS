@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://quickcv-backend-with-node-js-express-js.onrender.com",
-  // baseURL: "http://127.0.0.1:5000",
+  // baseURL: "https://quickcv-backend-with-node-js-express-js.onrender.com",
+  baseURL: "http://127.0.0.1:5000",
   headers: { "Content-Type": "application/json" },
 });
 

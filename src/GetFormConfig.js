@@ -38,9 +38,9 @@ const GetFormConfig = ()=>{
             fields: [
                 { name: "School_Name", type: "text", required: false, placeholder: "UCLA", className: "col-span-2"},
                 { name: "Location", type: "text", required: false, placeholder: "New York", className: "col-span-2"},
-                { name: "Degree", type: "text", required: false, placeholder: "BA in Finance and Banking", className: "col-span-2"},
-                { name: "Start_Date", type: "month", required: false, placeholder: "MM/YYYY"},
-                { name: "End_Date", type: "month", required: false, placeholder: "MM/YYYY"},
+                { name: "Degree", type: "text", required: true, placeholder: "BA in Finance and Banking", className: "col-span-2"},
+                { name: "Start_Date", type: "month", required: true, placeholder: "MM/YYYY"},
+                { name: "End_Date", type: "month", required: true, placeholder: "MM/YYYY"},
                 { name: "Description", type: "text", required: false, placeholder: "Enter some description", className: "col-span-4"}
             ]
         },
@@ -51,7 +51,7 @@ const GetFormConfig = ()=>{
             multiple: true, 
             withHeading: false,
             fields: [
-                { name: "Skill"}
+                { name: "Skill", type: "text", required: false, placeholder: "Mathematics"}
             ]
         },
         {
@@ -60,7 +60,7 @@ const GetFormConfig = ()=>{
             gridCols: 1,
             multiple: false,
             fields: [
-                { name: "", type: "text", placeholder: "Type from scratch or select one of our recruiter-approved structure examples", className:"large-text"}
+                { name: "summary", type: "text", placeholder: "Type from scratch or select one of our recruiter-approved structure examples", className:"large-text"}
             ]
         },
         {

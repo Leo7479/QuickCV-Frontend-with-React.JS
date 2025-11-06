@@ -3,7 +3,7 @@ import LoadTemplate from "../LoadTemplate";
 import { useContext, useEffect, useRef, useState } from "react";
 import GetTemplates from "../GetTemplates";
 import GetFormConfig from "../GetFormConfig";
-import { ChevronDown, LayoutDashboardIcon, Plus, Printer, Trash2 } from "lucide-react";
+import { Check, ChevronDown, LayoutDashboardIcon, Plus, Printer, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoadingContext } from "../components/LoadingContext";
 import api from "../services/api";
@@ -27,9 +27,13 @@ const ResumeEditor = (props) => {
     const [userId, setUserId] = useState(null);
 
     async function getFormData(){
+        try{
         const result = await api.get(`/api/user-details/${userId}`);
         console.log(result);
         setFormData(result.data.formData);
+        }catch(e){
+
+        }
     }
 
     async function saveFormData(){
@@ -116,15 +120,17 @@ const ResumeEditor = (props) => {
                             {
                                 steps.map((s, i) => {
                                     return <div key={i} ref={stepRefs} className="w-full h-full text-center">
-                                        <h1 className={`text-[0.7em]/[1] md:text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep >= i ? "text-primary" : "text-black"}`}>{s}</h1>
+                                        <h1 className={`text-[0.7em]/[1] md:text-[1.2em]/[1] whitespace-nowrap pb-6 transition-all duration-[1000ms] ${activeStep === i ? "text-primary" : activeStep>i?"text-textGreen ":"text-lightText"}`}>{s}</h1>
                                         <div className="flex justify-between items-center relative">
                                             <div className={`w-full h-[2px] bg-gray-300`}>
-                                                <div className={`progress-before w-full h-full bg-primary transition-all duration-[500ms] ${direction === "forwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep >= i ? "max-w-full" : "max-w-0"}`}></div>
+                                                <div className={`progress-before w-full h-full transition-all duration-[500ms] ${direction === "forwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-full bg-primary" : activeStep>i?"max-w-full bg-textGreen":"max-w-0"}`}></div>
                                             </div>
                                             <div className={`w-full h-[2px] bg-gray-300`}>
-                                                <div className={`progress-after w-full h-full bg-primary transition-all duration-[500ms] ${direction === "backwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep <= i ? "max-w-0" : "max-w-full"}`}></div>
+                                                <div className={`progress-after w-full h-full transition-all duration-[500ms] ${direction === "backwards" ? "delay-[500ms] ease-out" : "ease-in"} ${activeStep === i ? "max-w-0" : activeStep>i? activeStep===i+1?"max-w-full bg-primary":"max-w-full bg-textGreen":"max-w-0"}`}></div>
                                             </div>
-                                            <div className={`absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[14px] aspect-square border-full border-2 border-solid rounded-full transition-all duration-[500ms] delay-[500ms] ease ${activeStep >= i ? "bg-primary border-primary " : "bg-gray-300 border-gray-300"}`}></div>
+                                            <div className={`absolute grid place-items-center p-[4px] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[20px] h-[20px] aspect-square border-full border-2 border-solid rounded-full transition-all duration-[500ms] delay-[500ms] ease ${activeStep === i ? "bg-primary border-primary text-white" : activeStep>i?"bg-textGreen border-textGreen ":"bg-gray-300 border-gray-300"}`}>
+                                                <Check className={`transition-all duration-200 ${i<activeStep?"opacity-100":"opacity-0"}`} strokeWidth={2} size="15px" width="10px" height="10px"/>
+                                            </div>
                                         </div>
                                     </div>
                                 })
@@ -165,7 +171,7 @@ const ResumeEditor = (props) => {
                                                     {formConfig[activeStep].withHeading ?
                                                         <div className="flex flex-row justify-between items-center">
                                                             <div className="w-fit h-fit flex flex-col justify-center items-start">
-                                                                <h1 className="text-[0.9em] md:text-[1em] font-serif text-lightText uppercase">{d.Job_Title ? d.Job_Title : "Job Title"}</h1>
+                                                                <h1 className="text-[0.9em] md:text-[1em] font-serif text-lightText uppercase">{formData[activeStep].name==="Experience"? d.Job_Title ? d.Job_Title : "Job Title" : formData[activeStep].name==="Education"?d.Degree?d.Degree:"Education Title":null}</h1>
                                                                 <p className="text-[0.6em] font-serif text-lightText">{d.Start_Date ? d.Start_Date.split("-")[1] + "/" + d.Start_Date.split("-")[0] : "MM/YYYY"} - {d.End_Date ? d.End_Date.split("-")[1] + "/" + d.End_Date.split("-")[0] : "MM/YYYY"}</p>
                                                             </div>
                                                             <div className="flex flex-row shrink-0 gap-x-4">
