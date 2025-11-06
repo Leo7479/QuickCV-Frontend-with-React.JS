@@ -6,6 +6,7 @@ import GetFormConfig from "../GetFormConfig";
 import { ChevronDown, LayoutDashboardIcon, Plus, Printer, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoadingContext } from "../components/LoadingContext";
+import api from "../services/api";
 
 const ResumeEditor = (props) => {
     const navigate = useNavigate();
@@ -23,10 +24,18 @@ const ResumeEditor = (props) => {
     const templateRef = useRef();
     const [templateHeight, setTemplateHeight] = useState("auto");
     const { loading, setLoading } = useContext(LoadingContext);
+    const [userId, setUserId] = useState(null);
 
-    useEffect(() => {
-        if (props.resumeData) setFormData(props.resumeData);
-    }, []);
+    async function getFormData(){
+        const result = await api.get(`/api/user-details/${userId}`);
+        console.log(result);
+        setFormData(result.data.formData);
+    }
+
+    async function saveFormData(){
+        const result = await api.post(`/api/user-details/save/${userId}`,formData);
+        console.log("Saved data");
+    }
 
     useEffect(() => {
         const updateHeight = () => {
@@ -69,14 +78,33 @@ const ResumeEditor = (props) => {
             if (output.length > 0)
                 setFormData(output);
         }
+
+        async function getUserId() {
+            try{
+                console.log("Getting user id");
+                const user = JSON.parse(localStorage.getItem("user"));
+                setUserId(user.id);
+                console.log("Got User ID ",user.id);
+            }catch(e){
+                console.log(e);
+            }
+        }
         loadTemplate();
         loadForm();
+        getUserId();
         setLoading(false);
     }, []);
 
+    useEffect(()=>{
+        console.log(userId);
+        if(userId!==null && userId!==undefined){
+            console.log("Getting form data for User Id: ",userId);
+            getFormData();
+        }
+    },[userId]);
+
     useEffect(() => {
         console.log(formData);
-
     }, [formData]);
 
     return (
@@ -116,6 +144,7 @@ const ResumeEditor = (props) => {
                                     try {
                                         e.preventDefault();
                                         setDirection("forwards");
+                                        saveFormData();
                                         setActiveStep(activeStep + 1);
                                     } catch (e) { }
                                 }

@@ -317,52 +317,7 @@ const Home = () => {
                                 </div>
                                 <div className="w-full h-fit overflow-x-auto">
                                     <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px] transition-all duration-200  templates-container left-0">
-                                        {/* <div className="w-fit h-fit template-container">
-                                        <DefaultTemplate className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                        <div 
-                                        className="flex justify-center items-center hover-container">
-                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                                <div className="text-up">
-                                                    <span className="text">Use This Template</span>
-                                                    <span className="text">Use This Template</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="w-fit h-fit template-container">
-                                        <Template001 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                        <div className="flex justify-center items-center hover-container">
-                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                                <div className="text-up">
-                                                    <span className="text">Use This Template</span>
-                                                    <span className="text">Use This Template</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="w-fit h-fit template-container">
-                                        <Template002 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                        <div className="flex justify-center items-center hover-container">
-                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                                <div className="text-up">
-                                                    <span className="text">Use This Template</span>
-                                                    <span className="text">Use This Template</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="w-fit h-fit template-container">
-                                        <Template003 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                        <div className="flex justify-center items-center hover-container">
-                                            <button className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
-                                                <div className="text-up">
-                                                    <span className="text">Use This Template</span>
-                                                    <span className="text">Use This Template</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <Template004 className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" /> */}
+                                        
                                         {
                                             templates && templates.map((t) => {
                                                 return <div className="w-full h-fit template-container">

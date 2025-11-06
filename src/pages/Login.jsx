@@ -69,7 +69,6 @@ const Login = () => {
         const toastID = toast.loading("Logging In");
         try {
             const res = await api.post('/api/auth/login', { email, password });
-            console.log(res);
             const { token, user } = res.data;
             setAuthToken(token);
             toast.update(toastID, {
@@ -80,8 +79,8 @@ const Login = () => {
                 closeOnClick: true
             });
             navigate('/dashboard/dashboard');
-            console.log(user);
             localStorage.setItem("user", JSON.stringify({
+                id: user.id,
                 name: user.name,
                 email: user.email,
                 title: "Frontend Developer",
