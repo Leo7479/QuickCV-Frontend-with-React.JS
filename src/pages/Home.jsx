@@ -281,7 +281,7 @@ const Home = () => {
                                 </div>
                             </button>
                             <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8">
-                                <div className="absolute inset-0 w-full h-fit z-[5] top-[50%] left-0 -translate-y-[50%]  flex justify-between items-center">
+                                <div className="absolute inset-0 w-full h-fit z-[5] top-[50%] left-0 -translate-y-[50%] pointer-events-none flex justify-between items-center">
                                     <div
                                         onClick={(e) => {
                                             const totalTemplates = templatesContainerRef.current.children.length;
@@ -295,7 +295,7 @@ const Home = () => {
                                                 });
                                             }
                                         }}
-                                        className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                        className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveLeftIcon />
                                     </div>
                                     <div
@@ -311,7 +311,7 @@ const Home = () => {
                                                 });
                                             }
                                         }}
-                                        className="w-8 h-8 rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                        className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
                                         <MoveRightIcon />
                                     </div>
                                 </div>
