@@ -14,7 +14,7 @@ const DeveloperWarning = ()=>{
                 <div className="flex gap-y-2 flex-col items-center justify-start py-4">
                     <div className="text-yellow-400"><Construction size={50}/></div>
                     <h1 className="w-full text-[2em]/[1] font-bold uppercase whitespace-wrap text-white text-center">Website Under Construction</h1>
-                    <p className="w-full text-center text-[1em] text-[#aaa]">This Website is currently under development. Please feel free to reach <a href="mailto:shubhrajitsarkar123ss@gmail.com" className="underline font-bold">shubhrajitsarkar123ss@gmail.com</a> to report any problems</p>
+                    <p className="w-full text-center text-[1em] text-[#aaa]">This is a Project Work website only. Developed by <b>Shubhrajit Sarkar</b>. This Website is currently under development for better features and user experience. Please feel free to reach <a href="mailto:shubhrajitsarkar123ss@gmail.com" className="underline font-bold">shubhrajitsarkar123ss@gmail.com</a> to report any problems</p>
                 </div>
             </div>
         </div>
