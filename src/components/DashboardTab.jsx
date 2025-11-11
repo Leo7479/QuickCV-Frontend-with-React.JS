@@ -29,6 +29,7 @@ const DashboardTab = () => {
                 setVisitedTemplates(result.data.data.templates);
             } catch (e) {
                 console.log(e);
+                setLoading(false);
                 toast.error("Error fetching previous resumes");
             }
 
