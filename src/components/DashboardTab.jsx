@@ -1,4 +1,4 @@
-import { FileBox, FileChartLine, MoveLeftIcon, MoveRightIcon, PlusSquare, Search, Trophy } from "lucide-react";
+import { FileBox, FileChartLine, MoveLeftIcon, MoveRightIcon, PlusSquare, Search, Trash2, Trophy } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoadingContext } from "./LoadingContext";
@@ -22,7 +22,10 @@ const DashboardTab = () => {
         const getVisitedTemplates = async () => {
             try {
                 const result = await api.get(`/api/visited-templates/${user.id}`);
-                console.log(result.data.data.templates);
+                if(result.data.data.templates.length===0){
+                    setLoading(false);
+                    return;
+                }
                 setVisitedTemplates(result.data.data.templates);
             } catch (e) {
                 console.log(e);
@@ -30,7 +33,6 @@ const DashboardTab = () => {
             }
 
         }
-
         const showDashboard = async () => {
             if (user) {
                 await getVisitedTemplates();
@@ -46,7 +48,6 @@ const DashboardTab = () => {
                 const filtered = allResumes.filter((t, i) => {
                     return (visitedTemplates.includes(t.id));
                 });
-                console.log(filtered);
                 setTemplates(filtered);
             } catch (e) {
                 console.log(e);
@@ -102,10 +103,10 @@ const DashboardTab = () => {
                                 </div>
                             </button>
                         </div>
-                        <div className="w-full h-[400px] flex flex-row">
+                        <div className="w-full h-fit min-h-[400px] flex flex-row ">
                             {
                                 visitedTemplates.length > 0 ?
-                                    <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8">
+                                    <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 h-fit flex gap-x-4 mt-8">
                                         <div className="absolute inset-0 w-full h-fit z-[5] top-[50%] left-0 -translate-y-[50%] pointer-events-none flex justify-between items-center">
                                             <div
                                                 onClick={(e) => {
@@ -121,7 +122,7 @@ const DashboardTab = () => {
                                                     }
                                                 }}
                                                 className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
-                                                <MoveLeftIcon />
+                                                <MoveLeftIcon fill="#fff" color="#fff" />
                                             </div>
                                             <div
                                                 onClick={(e) => {
@@ -137,7 +138,7 @@ const DashboardTab = () => {
                                                     }
                                                 }}
                                                 className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
-                                                <MoveRightIcon />
+                                                <MoveRightIcon fill="#fff" color="#fff" />
                                             </div>
                                         </div><div className="w-full h-fit overflow-x-auto">
                                             <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px] transition-all duration-200  templates-container left-0">
@@ -146,7 +147,44 @@ const DashboardTab = () => {
                                                     templates && templates.map((t) => {
                                                         return <div className="w-full h-fit template-container">
                                                             <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
-                                                            <div className="flex justify-center items-center hover-container">
+                                                            <div className="flex border-2 border-blue-550 justify-center items-center hover-container">
+                                                                <button
+                                                                    onClick={async (e) => {
+
+                                                                        const toastID = toast.loading("Deleting Template");
+                                                                        try {
+                                                                            const filteredVisitedTemplates = visitedTemplates.filter((item, id) => {
+                                                                                return item != t.id;
+                                                                            });
+                                                                            const filteredTemplates = templates.filter((item, id) => {
+                                                                                return item.id != t.id;
+                                                                            });
+                                                                            console.log(t.id);
+                                                                            const result = await api.put(`/api/visited-templates/${user.id}`, { "template": t.id });
+                                                                            console.log(result);
+                                                                            setTemplates(filteredTemplates);
+                                                                            setVisitedTemplates(filteredVisitedTemplates);
+                                                                            toast.update(toastID, {
+                                                                                render: "Deleted Template",
+                                                                                type: "success",
+                                                                                isLoading: false,
+                                                                                closeOnClick: true,
+                                                                                autoClose: 3000
+                                                                            });
+                                                                        } catch (e) {
+                                                                            console.log(e);
+                                                                            toast.update(toastID, {
+                                                                                render: "Try Again Later",
+                                                                                type: "error",
+                                                                                isLoading: false,
+                                                                                closeOnClick: true,
+                                                                                autoClose: 3000
+                                                                            });
+                                                                        }
+
+                                                                    }}
+                                                                    className="absolute top-2 right-2 text-red-600 bg-white hover:bg-red-600 hover:text-white p-[5px] rounded-full transition-all duration-200"
+                                                                ><Trash2 strokeWidth={1} /></button>
                                                                 <button
                                                                     onClick={() => { setLoading(true); navigate(`/resume/edit/${t.id}`) }}
                                                                     className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
@@ -163,7 +201,7 @@ const DashboardTab = () => {
                                         </div>
                                     </div>
                                     :
-                                    <div className="flex flex-col justify-center items-center w-full h-full flex justify-center items-center flex-col border-b-2 border-b-solid border-b-gray-200">
+                                    <div className="flex flex-col justify-center items-center w-full h-full flex justify-center items-center flex-col border-b-2 border-b-solid border-b-gray-200 py-12 md:py-20">
                                         <FileBox strokeWidth={1} size={70} className="text-primary p-2 bg-secondary mb-8" />
                                         <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">No Resumes Created Yet!</h1>
                                         <p className="text-[0.9em]/[1] text-lightText">Create a resume that opens doors. Click “New Resume” to begin.</p>

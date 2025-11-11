@@ -9,13 +9,20 @@ import { useContext, useEffect, useState } from "react";
 import LoadTemplate from "../LoadTemplate";
 import { LoadingContext } from "../components/LoadingContext";
 import DefaultTemplateConfig from "../templates/DefaultTemplateConfig";
+import api from "../services/api";
 
 const Templates = () => {
+    const [user, setUser] = useState();
     const navigate = useNavigate();
     const {loading, setLoading} = useContext(LoadingContext);
     const [templates, setTemplates] = useState(null);
     useEffect(() => {
         setTemplates(GetTemplates());
+        try{
+            setUser(JSON.parse(localStorage.getItem("user")));
+        }catch(e){
+            console.log(e);
+        }
     }, []);
     useEffect(()=>{
         if(templates){
@@ -57,7 +64,15 @@ const Templates = () => {
                                     <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template h-[600px] text-[0.65rem]/[1] text-black/70" />
                                     <div className="flex justify-center items-center hover-container">
                                         <button
-                                        onClick={()=>{setLoading(true);navigate(`/resume/edit/${t.id}`)}}
+                                        onClick={async()=>{
+                                            setLoading(true);
+                                            navigate(`/resume/edit/${t.id}`);
+                                            try{
+                                            await api.post(`/api/visited-templates/${user.id}`,{"template":t.id})
+                                            }catch(e){
+                                                console.log(e);
+                                            }
+                                        }}
                                         className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
                                             <div className="text-up">
                                                 <span className="text">Use This Template</span>

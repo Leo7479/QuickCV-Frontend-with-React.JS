@@ -298,7 +298,7 @@ const Home = () => {
                                             }
                                         }}
                                         className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
-                                        <MoveLeftIcon />
+                                        <MoveLeftIcon fill="#fff" color="#fff"/>
                                     </div>
                                     <div
                                         onClick={(e) => {
@@ -314,7 +314,7 @@ const Home = () => {
                                             }
                                         }}
                                         className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
-                                        <MoveRightIcon />
+                                        <MoveRightIcon fill="#fff" color="#fff"/>
                                     </div>
                                 </div>
                                 <div className="w-full h-fit overflow-x-auto">
@@ -325,6 +325,7 @@ const Home = () => {
                                                 return <div className="w-full h-fit template-container">
                                                     <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
                                                     <div className="flex justify-center items-center hover-container">
+                                                        <button></button>
                                                         <button
                                                             onClick={() => { setLoading(true); navigate(`/resume/edit/${t.id}`) }}
                                                             className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">

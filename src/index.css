@@ -134,7 +134,7 @@ button{
   pointer-events: all; /* clickable only when visible */
 }
 
-.hover-container button {
+.hover-container button.text-up-container {
   position: relative;
   z-index: 60; /* keep above overlay background */
   pointer-events: auto;
