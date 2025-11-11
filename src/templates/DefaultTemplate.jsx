@@ -64,9 +64,10 @@ const DefaultTemplate = ({ data, ...props }) => {
                                             <p className="text-[0.9em]/[1.1] text-[#1a1a1afc] italic">{d.Employer} - {d.Location}</p>
                                             <div className="w-full h-fit mt-[2px]">
                                                 <ul className="flex flex-col gap-y-[2px] text-[#1a1a1abf] pl-[2px] text-[0.9em]">
-                                                    {d?.Description?.map((line,i)=>{
+                                                    {console.log(d)}
+                                                    {/* {d?.Description?.map((line,i)=>{
                                                         return <li><span className="mr-2">•</span>{line}</li>
-                                                    })}
+                                                    })} */}
                                                 </ul>
                                             </div>
                                         </div>)
