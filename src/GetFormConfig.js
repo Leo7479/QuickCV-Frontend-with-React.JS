@@ -43,8 +43,8 @@ const GetFormConfig = ()=>{
                 { name: "Degree", type: "text", required: true, placeholder: "BA in Finance and Banking", className: "col-span-2"},
                 { name: "Start_Date", type: "month", required: true, placeholder: "MM/YYYY"},
                 { name: "End_Date", type: "month", required: true, placeholder: "MM/YYYY"},
-                { name: "Score", type: "number", required: true, placeholder: "eg: 9.5/10", className:"col-span-4"},
-                { name: "Description", type: "text", required: false, placeholder: "Enter some description", className: "col-span-4"}
+                { name: "Score", type: "number", min: "0", max: "10", step: "0.01", required: true, placeholder: "eg: 9.5/10", className:"col-span-4"},
+                { name: "Description", type: "description", required: false, placeholder: "Enter some description", className: "col-span-4"}
             ]
         },
         {
@@ -63,11 +63,12 @@ const GetFormConfig = ()=>{
             gridCols: 1,
             multiple: false,
             fields: [
-                { name: "summary", type: "text", placeholder: "Type from scratch or select one of our recruiter-approved structure examples", className:"large-text"}
+                { name: "summary", type: "largetext", placeholder: "Type from scratch or select one of our recruiter-approved structure examples"}
             ]
         },
         {
-            name: "Finalize"
+            name: "Finalize",
+            description: "You are all set up. Download or Print the Resume and save for further requirements. Feel Free to go to previous steps and make changes if needed. Please leave a Google Review if you enjoyed our Resume Builder."
         }
     ];
     return formConfig

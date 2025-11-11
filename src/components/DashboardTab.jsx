@@ -1,19 +1,68 @@
-import { FileBox, FileChartLine, PlusSquare, Search, Trophy } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { FileBox, FileChartLine, MoveLeftIcon, MoveRightIcon, PlusSquare, Search, Trophy } from "lucide-react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoadingContext } from "./LoadingContext";
+import api from "../services/api";
+import { toast } from "react-toastify";
+import DefaultTemplateConfig from "../templates/DefaultTemplateConfig";
+import LoadTemplate from "../LoadTemplate";
+import GetTemplates from "../GetTemplates";
 
 const DashboardTab = () => {
     const [user, setUser] = useState();
+    const [visitedTemplates, setVisitedTemplates] = useState([]);
+    const [templates, setTemplates] = useState(null);
     const { loading, setLoading } = useContext(LoadingContext);
+    const [activeTemplate, setActiveTemplate] = useState(0);
+    const templatesContainerRef = useRef();
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("user")));
     }, []);
-    useEffect(()=>{
-        if(user){
-            setLoading(false);
+    useEffect(() => {
+        const getVisitedTemplates = async () => {
+            try {
+                const result = await api.get(`/api/visited-templates/${user.id}`);
+                console.log(result.data.data.templates);
+                setVisitedTemplates(result.data.data.templates);
+            } catch (e) {
+                console.log(e);
+                toast.error("Error fetching previous resumes");
+            }
+
         }
-    },[user])
+
+        const showDashboard = async () => {
+            if (user) {
+                await getVisitedTemplates();
+            }
+        }
+        showDashboard();
+    }, [user]);
+    useEffect(() => {
+        const showVisitedTemplates = async () => {
+            try {
+                const allResumes = GetTemplates();
+                console.log(visitedTemplates);
+                const filtered = allResumes.filter((t, i) => {
+                    return (visitedTemplates.includes(t.id));
+                });
+                console.log(filtered);
+                setTemplates(filtered);
+            } catch (e) {
+                console.log(e);
+                toast.error("Error displaying previous resumes");
+            }
+        }
+        const showDashboard = async () => {
+            if (visitedTemplates.length > 0) {
+
+                await showVisitedTemplates();
+                console.log(templates);
+                setLoading(false);
+            }
+        }
+        showDashboard();
+    }, [visitedTemplates])
     const navigate = useNavigate();
     return (
         <div className="w-full h-full relative overflow-x-hidden overflow-y-auto">
@@ -27,7 +76,7 @@ const DashboardTab = () => {
                     <div className="w-full h-fit flex justify-between items-center">
                         <h1 className="text-[1.4em] text-dark font-serif">Your Documents</h1>
                         <button
-                            onClick={() => { setLoading(true);navigate("/templates") }}
+                            onClick={() => { setLoading(true); navigate("/templates") }}
                             className="text-up-container px-4 py-2 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <PlusSquare />
                             <div className="text-up text-[1rem]/[1]">
@@ -54,20 +103,81 @@ const DashboardTab = () => {
                             </button>
                         </div>
                         <div className="w-full h-[400px] flex flex-row">
-                            <div className="flex flex-col justify-center items-center w-full h-full flex justify-center items-center flex-col border-b-2 border-b-solid border-b-gray-200">
-                                <FileBox strokeWidth={1} size={70} className="text-primary p-2 bg-secondary mb-8" />
-                                <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">No Resumes Created Yet!</h1>
-                                <p className="text-[0.9em]/[1] text-lightText">Create a resume that opens doors. Click “New Resume” to begin.</p>
-                                <button
-                                    onClick={() => { setLoading(true);navigate("/templates") }}
-                                    className="text-up-container px-4 py-2 mt-8 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
-                                    <PlusSquare />
-                                    <div className="text-up text-[1rem]/[1]">
-                                        <span className="text">New resume</span>
-                                        <span className="text">New resume</span>
+                            {
+                                visitedTemplates.length > 0 ?
+                                    <div className="relative w-[100%] overflow-x-auto scrollbar-needed pb-4 max-w-fit h-fit flex gap-x-4 mt-8">
+                                        <div className="absolute inset-0 w-full h-fit z-[5] top-[50%] left-0 -translate-y-[50%] pointer-events-none flex justify-between items-center">
+                                            <div
+                                                onClick={(e) => {
+                                                    const totalTemplates = templatesContainerRef.current.children.length;
+                                                    if (activeTemplate - 1 >= 0) {
+                                                        templatesContainerRef.current.style.left = (-(activeTemplate - 1) * 300) + "px";
+                                                        console.log(templatesContainerRef.current.style.left);
+                                                        setActiveTemplate(activeTemplate - 1);
+                                                    } else {
+                                                        toast.info("No more templates available", {
+                                                            closeOnClick: true
+                                                        });
+                                                    }
+                                                }}
+                                                className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                                <MoveLeftIcon />
+                                            </div>
+                                            <div
+                                                onClick={(e) => {
+                                                    const totalTemplates = templatesContainerRef.current.children.length;
+                                                    if (activeTemplate + 1 < totalTemplates) {
+                                                        templatesContainerRef.current.style.left = (-(activeTemplate + 1) * 300) + "px";
+                                                        console.log(templatesContainerRef.current.style.left);
+                                                        setActiveTemplate(activeTemplate + 1);
+                                                    } else {
+                                                        toast.info("No more templates available", {
+                                                            closeOnClick: true
+                                                        });
+                                                    }
+                                                }}
+                                                className="w-8 h-8 pointer-events-auto rounded-full bg-gray-500 grid place-items-center cursor-pointer">
+                                                <MoveRightIcon />
+                                            </div>
+                                        </div><div className="w-full h-fit overflow-x-auto">
+                                            <div ref={templatesContainerRef} className="w-fit h-fit flex flex-row gap-x-4 relative pl-[10px] transition-all duration-200  templates-container left-0">
+
+                                                {
+                                                    templates && templates.map((t) => {
+                                                        return <div className="w-full h-fit template-container">
+                                                            <LoadTemplate path={t.path} data={DefaultTemplateConfig()} className="template w-[100px] h-[400px] text-[0.5rem]/[1] text-black/70" />
+                                                            <div className="flex justify-center items-center hover-container">
+                                                                <button
+                                                                    onClick={() => { setLoading(true); navigate(`/resume/edit/${t.id}`) }}
+                                                                    className="text-up-container bg-white before-filler filler-primary hover:text-white text-primary font-semibold text-lg/[0.9] px-8 py-4 border-2 border-solid border-primary rounded-xl outline-none">
+                                                                    <div className="text-up">
+                                                                        <span className="text">Use This Template</span>
+                                                                        <span className="text">Use This Template</span>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
-                                </button>
-                            </div>
+                                    :
+                                    <div className="flex flex-col justify-center items-center w-full h-full flex justify-center items-center flex-col border-b-2 border-b-solid border-b-gray-200">
+                                        <FileBox strokeWidth={1} size={70} className="text-primary p-2 bg-secondary mb-8" />
+                                        <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">No Resumes Created Yet!</h1>
+                                        <p className="text-[0.9em]/[1] text-lightText">Create a resume that opens doors. Click “New Resume” to begin.</p>
+                                        <button
+                                            onClick={() => { setLoading(true); navigate("/templates") }}
+                                            className="text-up-container px-4 py-2 mt-8 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
+                                            <PlusSquare />
+                                            <div className="text-up text-[1rem]/[1]">
+                                                <span className="text">New resume</span>
+                                                <span className="text">New resume</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -75,7 +185,7 @@ const DashboardTab = () => {
                     <div className="w-full h-fit flex justify-between items-center">
                         <h1 className="text-[1.4em] text-dark font-serif">Browse Other Templates</h1>
                         <button
-                            onClick={() => { setLoading(true);navigate("/templates") }}
+                            onClick={() => { setLoading(true); navigate("/templates") }}
                             className="text-up-container px-4 py-2 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <Search />
                             <div className="text-up text-[1rem]/[1]">
@@ -90,7 +200,7 @@ const DashboardTab = () => {
                             <h1 className="text-[1.05em]/[1] font-bold text-dark font-serif mb-2">Visit more templates!</h1>
                             <p className="text-[0.9em]/[1] text-lightText">Your recently visited templates will show up here.</p>
                             <button
-                                onClick={() => { setLoading(true);navigate("/templates") }}
+                                onClick={() => { setLoading(true); navigate("/templates") }}
                                 className="text-up-container px-4 py-2 mt-8 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                                 <Search />
                                 <div className="text-up text-[1rem]/[1]">
@@ -106,7 +216,7 @@ const DashboardTab = () => {
                         <h1 className="font-serif text-[1.4rem] text-dark font-semibold">Get Interview Guide Now!</h1>
                         <p className="text-black/70 text-center">Receive a guide created by top recruiters. Learn to make an impressive self-introduction and master the most effective interview techniques</p>
                         <button
-                            onClick={() => { setLoading(true);navigate("/dashboard/interview-prep") }}
+                            onClick={() => { setLoading(true); navigate("/dashboard/interview-prep") }}
                             className="text-up-container px-4 py-4 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <div className="text-up text-[1rem]/[1]">
                                 <span className="text">Get It Now</span>
@@ -121,7 +231,7 @@ const DashboardTab = () => {
                         <h1 className="font-serif text-[1.4rem] text-dark font-semibold">LinkedIn Profile Boosting!</h1>
                         <p className="text-black/70 text-center">Boost your LinkedIn profile to stand out to recruiters and clients. Professional branding, clear positioning, and a strong presentation of your experience.</p>
                         <button
-                            onClick={() => { setLoading(true);navigate("/dashboard/interview-prep") }}
+                            onClick={() => { setLoading(true); navigate("/dashboard/interview-prep") }}
                             className="text-up-container px-4 py-4 rounded-xl bg-primary text-white font-medium flex items-center justify-center gap-x-[4px]">
                             <div className="text-up text-[1rem]/[1]">
                                 <span className="text">Get It Now</span>

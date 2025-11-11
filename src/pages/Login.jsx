@@ -21,9 +21,11 @@ const Login = () => {
     }
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token)
+        if (token){
             navigate("/dashboard/dashboard")
+        }else{
         setLoading(false);
+        }
     }, []);
 
 
@@ -90,6 +92,7 @@ const Login = () => {
                 isLoading: false,
                 closeOnClick: true
             });
+            setLoading(true);
             navigate('/dashboard/dashboard');
             localStorage.setItem("user", JSON.stringify({
                 id: user.id,

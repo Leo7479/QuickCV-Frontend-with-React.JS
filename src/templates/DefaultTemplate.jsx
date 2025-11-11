@@ -85,11 +85,14 @@ const DefaultTemplate = ({ data, ...props }) => {
                                         <div className="w-full h-fit flex flex-col gap-y-[2px]">
                                             <div className="flex justify-between items-center">
                                                 <h1 className="text-[1em]/[1] font-bold font-serif">{d.Degree}</h1>
-                                                <p className="italic text-[#1a1a1abf]">{d.Start_Date} - {d.End_Date}</p>
+                                                <p className="italic text-[#1a1a1abf] text-[0.6rem]">{d.Start_Date ? d.Start_Date.split("-")[1] + "/" + d.Start_Date.split("-")[0] : "MM/YYYY"} - {d.End_Date ? d.End_Date.split("-")[1] + "/" + d.End_Date.split("-")[0] : "MM/YYYY"}</p>
                                             </div>
-                                            <h3 className="text-[#1a1a1abf] text-[0.9em]/[1.1] font-sans pl-[2px]">{d.School_Name}</h3>
-                                            <p className="pl-[2px]"><span className="text-[#1a1a1abf] text-[0.9em]/[1.1]">Score:&nbsp;</span><span className="italic font-bold">95.4%</span></p>
-                                            <p className="pl-[2px] text-[0.9em]/[1]">{d.Description}</p>
+                                            <h3 className="text-[#1a1a1abf] text-[0.9em]/[1.1] font-sans pl-[2px] capitalize">{d.School_Name}, {d.Location}</h3>
+                                            <p className="pl-[2px]"><span className="text-[#1a1a1abf] text-[0.9em]/[1.1]">Score:&nbsp;</span><span className="italic font-bold">{d.Score}</span></p>
+                                            <ul className="pl-[2px] text-[0.9em]/[1]">
+                                                    {d?.Description?.map((line,i)=>{
+                                                        return <li><span className="mr-2">•</span>{line}</li>
+                                                    })}</ul>
                                         </div>
                                     )
                                 })

@@ -46,7 +46,7 @@ const DefaultTemplateConfig = () => {
             },
             "data": [
                 {
-                    "Description": "holaaaa Amigooo",
+                    "Description": ["holaaaa Amigooo"],
                     "School_Name": "MCKVIE",
                     "Degree": "Computer Science and Engineering",
                     "Location": "Howrah",
@@ -59,7 +59,7 @@ const DefaultTemplateConfig = () => {
                     "Degree": "Higher Secondary",
                     "Start_Date": "2025-02",
                     "End_Date": "2025-02",
-                    "Description": "Real Website:"
+                    "Description": ["Nothing Special"]
                 }
             ]
         },

@@ -29,6 +29,7 @@ const Home = () => {
     }, []);
     useEffect(() => {
         if (templates) {
+            console.log(templates);
             setLoading(false);
         }
     }, [templates]);

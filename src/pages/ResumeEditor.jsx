@@ -111,6 +111,71 @@ const ResumeEditor = (props) => {
         console.log(formData);
     }, [formData]);
 
+    const handleDownloadPdf = (resumeElement) => {
+        import("html2canvas").then(html2canvas => {
+            import("jspdf").then(jsPDF => {
+                html2canvas.default(resumeElement, {
+                    scale: 2, useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: "#ffffff"
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL("image/png");
+                    const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                    const user = localStorage.getItem("user");
+                    if (user) {
+                        const userJSON = JSON.parse(user);
+                        console.log(userJSON.name);
+                        pdf.save(`${userJSON.name}_QuickCV.pdf`);
+                    }
+                    else
+                        pdf.save("My_Resume_QuickCV.pdf");
+                    toast.success("Pdf Downloaded");
+                });
+            });
+        });
+    }
+    const handlePrint = (resumeElement) => {
+        import("html2canvas")
+            .then(html2canvas => {
+                import("jspdf").then(jsPDF => {
+                    html2canvas.default(resumeElement, {
+                        scale: 2, useCORS: true,
+                        allowTaint: true,
+                        logging: false,
+                        backgroundColor: "#ffffff"
+                    }).then(canvas => {
+                        const imgData = canvas.toDataURL("image/png");
+                        const pdf = new jsPDF.jsPDF("p", "mm", "a4");
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                        pdf.autoPrint();
+                        const printWindow = window.open(pdf.output("bloburl"), "_blank");
+                        if (printWindow) {
+                            printWindow.onload = () => {
+                                try {
+                                    printWindow.focus(); // focus the new window in case of new window in background or popup blocker
+                                    printWindow.print();
+                                } catch (e) {
+                                    console.log(e);
+                                    toast.error("Error Occured. Try Again.")
+
+                                }
+                            }
+                            toast.success("Print Dialog Opened.")
+                        } else {
+                            toast.error("Error Occured. Try Again.")
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                });
+            })
+    }
     return (
         <div className="w-screen h-screen flex">
             <div className="w-full h-full bg-[#eef2f9] p-4">
@@ -151,7 +216,10 @@ const ResumeEditor = (props) => {
                                         e.preventDefault();
                                         setDirection("forwards");
                                         saveFormData();
-                                        setActiveStep(activeStep + 1);
+                                        if(activeStep!==steps.length-1)
+                                            setActiveStep(activeStep + 1);
+                                        else
+                                            navigate("/dashboard/dashboard")
                                     } catch (e) { }
                                 }
                             }
@@ -225,46 +293,70 @@ const ResumeEditor = (props) => {
                                                                 return (
                                                                     <div key={name} className={`flex flex-col justify-between min-w-0 items-start gap-y-2 ${className ? className : null}`}>
                                                                         <label className="text-dark uppercase text-[0.8em]/[1] md:text-[1em]/[1]">{name.replaceAll("_", " ")}{required ? <span className="text-red-600 text-[1.5em]/[1]">*</span> : null}</label>
+                                                                        {console.log(type === "largetext")}
                                                                         {
                                                                             type === "description" ?
-                                                                                <textarea name={name} required={required}
-                                                                                    defaultValue = {formData[activeStep].data[idx].Description?.map((line,i)=>{
-                                                                                        return "• "+line;
-                                                                                    }).join("\n")}
+                                                                                <textarea name={name} required={required} {...f}
+                                                                                    defaultValue={formData[activeStep].data[idx].Description?.length > 0 ? formData[activeStep].data[idx].Description?.map((line, i) => {
+                                                                                        return "• " + line;
+                                                                                    }).join("\n") : "• "}
+                                                                                    onKeyDown={(e) => {
+                                                                                        if (e.key === "Enter" || e.keyCode === 13) {
+                                                                                            e.preventDefault();
+                                                                                            e.target.value = e.target.value + "\n• "
+                                                                                        }
+                                                                                    }}
                                                                                     onChange={(e) => {
                                                                                         const fieldData = e.target.value;
-                                                                                        const newFormData = formData.map((stepData, id)=>{
-                                                                                            if(id===activeStep){
-                                                                                                const value = {...stepData};
-                                                                                                value.data[idx].Description = fieldData.replaceAll("• ","").split("\n");
+                                                                                        const newFormData = formData.map((stepData, id) => {
+                                                                                            if (id === activeStep) {
+                                                                                                const value = { ...stepData };
+                                                                                                value.data[idx].Description = fieldData.replaceAll("• ", "").split("\n");
                                                                                                 return value;
-                                                                                            }else{
+                                                                                            } else {
                                                                                                 return stepData
                                                                                             }
                                                                                         });
                                                                                         setFormData(newFormData);
                                                                                     }}
                                                                                     className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} >
-                                                                                        
-                                                                                    </textarea>
+
+                                                                                </textarea>
 
                                                                                 :
-
-                                                                                <input name={name} type={type} required={required}
-                                                                                    value={formData ? formData[activeStep].data[idx] ? formData[activeStep].data[idx][name] : null : null}
-                                                                                    onChange={(e) => {
-                                                                                        const newFormData = formData.map((stepdata, id) => {
-                                                                                            if (id === activeStep) {
-                                                                                                const value = { ...stepdata };
-                                                                                                value.data[idx][name] = e.target.value;
-                                                                                                return value;
-                                                                                            }
-                                                                                            else
-                                                                                                return stepdata;
-                                                                                        });
-                                                                                        setFormData(newFormData);
-                                                                                    }}
-                                                                                    className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                                                type === "largetext" ?
+                                                                                    <textarea name={name} required={required} {...f}
+                                                                                        defaultValue={formData ? formData[activeStep].data[idx] ? console.log(formData) : null : null}
+                                                                                        onChange={(e) => {
+                                                                                            const newFormData = formData.map((stepdata, id) => {
+                                                                                                if (id === activeStep) {
+                                                                                                    const value = { ...stepdata };
+                                                                                                    value.data[idx][name] = e.target.value;
+                                                                                                    return value;
+                                                                                                }
+                                                                                                else
+                                                                                                    return stepdata;
+                                                                                            });
+                                                                                            console.log(newFormData);
+                                                                                            // setFormData(newFormData);
+                                                                                        }}
+                                                                                    ></textarea>
+                                                                                    :
+                                                                                    <input name={name} type={type} required={required}
+                                                                                        value={formData ? formData[activeStep].data[idx] ? formData[activeStep].data[idx][name] : null : null}
+                                                                                        onChange={(e) => {
+                                                                                            const newFormData = formData.map((stepdata, id) => {
+                                                                                                if (id === activeStep) {
+                                                                                                    const value = { ...stepdata };
+                                                                                                    value.data[idx][name] = e.target.value;
+                                                                                                    return value;
+                                                                                                }
+                                                                                                else
+                                                                                                    return stepdata;
+                                                                                            });
+                                                                                            setFormData(newFormData);
+                                                                                        }}
+                                                                                        className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
                                                                         }
                                                                     </div>);
                                                             })
@@ -278,30 +370,86 @@ const ResumeEditor = (props) => {
                                             return (
                                                 <div className={`flex flex-col justify-between items-start gap-y-2 ${className}`}>
                                                     <label className="text-dark uppercase text-[0.8em]/[1] md:text-[1em]/[1]">{name.replaceAll("_", " ")}{required ? <span className="text-red-600 text-[1.5em]/[1]">*</span> : null}</label>
-                                                    <input name={name} type={type} required={required}
-                                                        value={formData ? formData[activeStep].data ? formData[activeStep].data[name] : null : null}
-                                                        onChange={(e) => {
-                                                            const newFormData = formData.map((stepdata, id) => {
-                                                                if (id === activeStep) {
-                                                                    return {
-                                                                        ...stepdata,
-                                                                        data: {
-                                                                            ...stepdata.data,
-                                                                            [name]: e.target.value
+                                                    {
+                                                        type === "largetext" ?
+                                                            <textarea name={name} required={required} {...f}
+                                                                defaultValue={formData ? formData[activeStep].data ? formData[activeStep].data[name] : null : null}
+                                                                onChange={(e) => {
+                                                                    const newFormData = formData.map((stepdata, id) => {
+                                                                        if (id === activeStep) {
+                                                                            const value = { ...stepdata };
+                                                                            value.data[name] = e.target.value;
+                                                                            return value;
                                                                         }
-                                                                    }
-                                                                }
-                                                                else
-                                                                    return stepdata;
-                                                            });
-                                                            setFormData(newFormData);
-                                                        }}
-                                                        className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                                        else
+                                                                            return stepdata;
+                                                                    });
+                                                                    setFormData(newFormData);
+                                                                }}
+                                                                className={`w-full h-[150px] border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f}
+                                                            ></textarea>
+                                                            :
+                                                            <input name={name} type={type} required={required}
+                                                                value={formData ? formData[activeStep].data ? formData[activeStep].data[name] : null : null}
+                                                                onChange={(e) => {
+                                                                    const newFormData = formData.map((stepdata, id) => {
+                                                                        if (id === activeStep) {
+                                                                            return {
+                                                                                ...stepdata,
+                                                                                data: {
+                                                                                    ...stepdata.data,
+                                                                                    [name]: e.target.value
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                            return stepdata;
+                                                                    });
+                                                                    setFormData(newFormData);
+                                                                }}
+                                                                className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} />
+                                                    }
                                                 </div>);
                                         })
                                     :
                                     // Everything is not available
                                     null
+                            }
+                            {console.log(activeStep === formConfig.length - 1)}
+                            {
+                                activeStep === formConfig.length - 1 ?
+                                    <div className="flex flex-col justify-center align-start gap-y-2 w-full h-fit w-full">
+                                        <button
+                                            onClick={() => {
+                                                const resumeElement = document.querySelector(".template");
+                                                handleDownloadPdf(resumeElement);
+                                            }}
+                                            title="Save as PDF"
+                                            className="flex gap-x-2 items-center text-up-container px-4 py-2 rounded-xl bg-white text-primary font-normal border-2 border-solid border-primary"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="none" viewBox="0 0 33 32" className="" data-sentry-element="PdfIcon" data-sentry-source-file="RightSide.tsx"><path fill="#F1F9FE" d="M28.443 9.792v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098m8.629 8.56c0-.778-.312-1.525-.868-2.076l-5.667-5.623a2.97 2.97 0 0 0-2.094-.861"></path><path stroke="#2E404A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.7" d="m16.599 25.872-4.442-4.407m4.442 4.407 4.441-4.407M16.6 25.872v-8.814m11.844-7.266v18.04c0 .778-.312 1.526-.867 2.077-.556.55-1.309.86-2.094.86H7.716c-.785 0-1.539-.31-2.094-.86a2.93 2.93 0 0 1-.867-2.078V4.17c0-.78.312-1.527.867-2.078a2.97 2.97 0 0 1 2.094-.86h12.098c.786 0 1.539.31 2.094.86l5.667 5.624c.556.55.868 1.298.868 2.077"></path><path fill="#FFD2DD" d="M19.655 6.86H2.628A2.12 2.12 0 0 0 .5 8.97v7.033a2.12 2.12 0 0 0 2.128 2.11h17.027a2.12 2.12 0 0 0 2.129-2.11V8.969a2.12 2.12 0 0 0-2.129-2.11"></path><path fill="#FB7E6D" d="M5.166 15.106q-.312 0-.482-.17-.17-.175-.17-.485v-3.713q0-.317.17-.486.177-.168.49-.168h1.745q.851 0 1.312.436.468.429.468 1.188 0 .76-.468 1.196-.461.429-1.312.429h-1.1v1.118q0 .31-.163.486-.163.168-.49.168m.653-2.765h.873q.369 0 .567-.154.2-.162.199-.479 0-.323-.199-.478-.198-.155-.567-.155h-.873zm3.815 2.701q-.333 0-.51-.169-.17-.175-.17-.499v-3.622q0-.324.17-.493.177-.175.51-.175h1.39q1.306 0 2.016.647.716.646.716 1.828 0 .591-.184 1.055-.184.457-.532.781a2.35 2.35 0 0 1-.859.486 3.8 3.8 0 0 1-1.156.161zm.625-1.048h.68q.377 0 .646-.091.277-.091.454-.268.184-.175.27-.443.093-.267.092-.633 0-.73-.361-1.076-.363-.351-1.1-.351h-.681zm4.577 1.111q-.312 0-.49-.168-.17-.176-.17-.5v-3.685q0-.324.17-.493.178-.175.511-.175h2.363q.255 0 .383.126.127.126.127.366 0 .245-.127.38-.128.126-.384.126h-1.738v.999h1.582q.248 0 .377.127.135.126.134.365 0 .247-.135.373-.127.127-.376.127h-1.582v1.364q0 .668-.645.668"></path></svg>
+                                            <div className="text-up text-[1em]/[1]">
+                                                <span className="text">Download As PDF</span>
+                                                <span className="text">Download As PDF</span>
+                                            </div>
+                                        </button>
+                                        {/* Print Resume Button */}
+                                        <button
+                                            onClick={() => {
+                                                const resumeElement = document.querySelector(".template");
+                                                handlePrint(resumeElement)
+                                            }}
+                                            title="Print Resume"
+                                            className="flex gap-x-2 items-center text-up-container px-4 py-2 rounded-xl bg-white text-primary font-normal border-2 border-solid border-primary"
+                                        >
+                                            <Printer strokeWidth={1} />
+                                            <div className="text-up text-[1em]/[1]">
+                                                <span className="text">Print Resume</span>
+                                                <span className="text">Print Resume</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    : null
                             }
                         </form>
                         {
@@ -328,35 +476,21 @@ const ResumeEditor = (props) => {
                             <button
                                 onClick={(e) => {
                                     const resumeElement = document.querySelector(".mobiletemplate");
-                                    import("html2canvas").then(html2canvas => {
-                                        import("jspdf").then(jsPDF => {
-                                            html2canvas.default(resumeElement, {
-                                                scale: 2, useCORS: true,
-                                                allowTaint: true,
-                                                logging: false,
-                                                backgroundColor: "#ffffff"
-                                            }).then(canvas => {
-                                                const imgData = canvas.toDataURL("image/png");
-                                                const pdf = new jsPDF.jsPDF("p", "mm", "a4");
-                                                const pdfWidth = pdf.internal.pageSize.getWidth();
-                                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                                                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-                                                const user = localStorage.getItem("user");
-                                                if (user) {
-                                                    const userJSON = JSON.parse(user);
-                                                    console.log(userJSON.name);
-                                                    pdf.save(`${userJSON.name}_QuickCV.pdf`);
-                                                }
-                                                else
-                                                    pdf.save("My_Resume_QuickCV.pdf");
-                                                toast.success("Pdf Downloaded");
-                                            });
-                                        });
-                                    });
+                                    handleDownloadPdf(resumeElement);
                                 }} className="border-2 border-solid border-primary text-primary px-4 py-2 md:px-6 md:py-4 rounded-xl text-up-container">
                                 <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
                                     <span className="text">Download PDF</span>
                                     <span className="text">Download PDF</span>
+                                </div>
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    const resumeElement = document.querySelector(".mobiletemplate");
+                                    handlePrint(resumeElement);
+                                }} className="border-2 border-solid border-primary text-primary px-4 py-2 md:px-6 md:py-4 rounded-xl text-up-container">
+                                <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
+                                    <span className="text">Print</span>
+                                    <span className="text">Print</span>
                                 </div>
                             </button>
                             <button
@@ -417,8 +551,8 @@ const ResumeEditor = (props) => {
                             }}
                             className="text-up-container px-4 py-2 md:px-6 md:py-4 rounded-xl bg-primary text-white font-normal">
                             <div className="text-up text-[1em]/[1] md:text-[1.1rem]/[1]">
-                                <span className="text">{activeStep !== (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Finalize"}</span>
-                                <span className="text">{activeStep !== (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Finalize"}</span>
+                                <span className="text">{activeStep !== (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Dashboard"}</span>
+                                <span className="text">{activeStep !== (steps.length - 1) ? `Next: ${steps[activeStep + 1] ? steps[activeStep + 1] : null}` : "Dashboard"}</span>
                             </div>
                         </button>
                     </div>
@@ -441,31 +575,7 @@ const ResumeEditor = (props) => {
                             <button
                                 onClick={() => {
                                     const resumeElement = document.querySelector(".template");
-                                    import("html2canvas").then(html2canvas => {
-                                        import("jspdf").then(jsPDF => {
-                                            html2canvas.default(resumeElement, {
-                                                scale: 2, useCORS: true,
-                                                allowTaint: true,
-                                                logging: false,
-                                                backgroundColor: "#ffffff"
-                                            }).then(canvas => {
-                                                const imgData = canvas.toDataURL("image/png");
-                                                const pdf = new jsPDF.jsPDF("p", "mm", "a4");
-                                                const pdfWidth = pdf.internal.pageSize.getWidth();
-                                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                                                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-                                                const user = localStorage.getItem("user");
-                                                if (user) {
-                                                    const userJSON = JSON.parse(user);
-                                                    console.log(userJSON.name);
-                                                    pdf.save(`${userJSON.name}_QuickCV.pdf`);
-                                                }
-                                                else
-                                                    pdf.save("My_Resume_QuickCV.pdf");
-                                                toast.success("Pdf Downloaded");
-                                            });
-                                        });
-                                    });
+                                    handleDownloadPdf(resumeElement);
                                 }}
                                 title="Save as PDF"
                                 className="shadow-xl cursor-pointer w-fit h-fit px-[10px] py-[5px] flex gap-x-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all duration-200"
@@ -477,42 +587,7 @@ const ResumeEditor = (props) => {
                             <button
                                 onClick={() => {
                                     const resumeElement = document.querySelector(".template");
-                                    import("html2canvas")
-                                        .then(html2canvas => {
-                                            import("jspdf").then(jsPDF => {
-                                                html2canvas.default(resumeElement, {
-                                                    scale: 2, useCORS: true,
-                                                    allowTaint: true,
-                                                    logging: false,
-                                                    backgroundColor: "#ffffff"
-                                                }).then(canvas => {
-                                                    const imgData = canvas.toDataURL("image/png");
-                                                    const pdf = new jsPDF.jsPDF("p", "mm", "a4");
-                                                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                                                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                                                    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-                                                    pdf.autoPrint();
-                                                    const printWindow = window.open(pdf.output("bloburl"), "_blank");
-                                                    if (printWindow) {
-                                                        printWindow.onload = () => {
-                                                            try {
-                                                                printWindow.focus(); // focus the new window in case of new window in background or popup blocker
-                                                                printWindow.print();
-                                                            } catch (e) {
-                                                                console.log(e);
-                                                                toast.error("Error Occured. Try Again.")
-
-                                                            }
-                                                        }
-                                                        toast.success("Print Dialog Opened.")
-                                                    } else {
-                                                        toast.error("Error Occured. Try Again.")
-                                                    }
-                                                }).catch(error => {
-                                                    console.log(error);
-                                                })
-                                            });
-                                        })
+                                    handlePrint(resumeElement)
                                 }}
                                 title="Print Resume"
                                 className="shadow-xl cursor-pointer w-fit h-fit px-[10px] py-[5px] flex gap-x-2 bg-white text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-all duration-200"
