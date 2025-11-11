@@ -76,8 +76,8 @@ const Home = () => {
                                 <b>50,032</b> resumes created today
                             </div>
                             <div className="flex flex-col justify-start items-start gap-y-6">
-                                <h1 className="text-[1.3rem]/[1.3] md:text-[2.5rem]/[1.3] lg:text-[3.3rem]/[1.3] font-bold font-serif text-[#3a3a3a]">The only <span className="text-primary">resume Builder</span> you'll ever need</h1>
-                                <p className="text-[#6a6a6a] text-[0.9em]/[1.3] font-sans font-semibold">The first step to a better job? A better resume. Only 2% of resumes win, and yours will be one of them. Create it now with our free resume builder!</p>
+                                <h1 className="text-[1.3rem]/[1.3] md:text-[2rem]/[1.3] lg:text-[2.5rem]/[1.3] font-bold font-serif text-[#3a3a3a]">The only <span className="text-primary">resume Builder</span> you'll ever need</h1>
+                                <p className="text-[#8a8a8a] text-[1.1em]/[1.3] font-sans font-semibold">The first step to a better job? A better resume. Only 2% of resumes win, and yours will be one of them. Create it now with our free resume builder!</p>
                             </div>
                             <div className="w-full h-fit flex justify-start items-center gap-x-4">
                                 <button
