@@ -230,28 +230,11 @@ const ResumeEditor = (props) => {
                                                                                 <textarea name={name} required={required}
                                                                                     
                                                                                     onChange={(e) => {
-                                                                                        const formattedData = e.target.value?.split("\n").map((line, i)=>{
-                                                                                            if(line.length>1)
-                                                                                            line = line.slice(1);
-                                                                                            return "*"+line;
-                                                                                        })
-                                                                                        const newFormData = formData.map((stepdata, id) => {
-                                                                                            if (id === activeStep) {
-                                                                                                const value = { ...stepdata };
-                                                                                                value.data[idx][name] = e.target.value?.split("\n").map(d=>{
-                                                                                                    return d.length>1?d.slice(1):d;
-                                                                                                });
-                                                                                                return value;
-                                                                                            }
-                                                                                            else
-                                                                                                return stepdata;
-                                                                                        });
-                                                                                        console.log(newFormData);
-                                                                                        setFormData(newFormData);
-                                                                                        console.log(formattedData);
-                                                                                        e.target.value = formattedData.join("\n");
+                                                                                        
                                                                                     }}
-                                                                                    className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} ></textarea>
+                                                                                    className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} >
+                                                                                        
+                                                                                    </textarea>
 
                                                                                 :
 

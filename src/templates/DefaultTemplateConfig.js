@@ -24,9 +24,7 @@ const DefaultTemplateConfig = () => {
                     "Start_Date": "2025-01",
                     "End_Date": "2025-03",
                     "Description": 
-                        "Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability. \
-                        Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year. \
-                        Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation."
+                        ["Spearhead data analysis and reporting for key business functions, identifying trends and providing insights to improve company performance and profitability.", "Conduct in-depth market analysis and competitive benchmarking to inform strategic decisions, resulting in a 15% increase in market share within one year." ,"Develop predictive models to forecast sales performance and customer behavior, contributing to more accurate budgeting and resource allocation."]
                     
                 },
                 {
@@ -36,9 +34,7 @@ const DefaultTemplateConfig = () => {
                     "Start_Date": "2025-05",
                     "End_Date": "2025-10",
                     "Description": 
-                        "Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs. \
-                        Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments. \
-                        Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget."
+                        ["Analyzed and interpreted large datasets to identify business opportunities and recommend process improvements, leading to a 20% reduction in operational costs.", "Created detailed financial models and dashboards to track key performance indicators (KPIs), enabling data-driven decision-making across departments.", "Worked closely with project managers to monitor progress on major initiatives, ensuring projects were delivered on time and within budget."]
                     
                 }
             ]
