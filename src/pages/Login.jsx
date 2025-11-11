@@ -47,16 +47,28 @@ const Login = () => {
         if (!agreed) return toast.error('Please accept terms');
         if (password !== passwordRepeat) return toast.error('Passwords do not match');
         if (!email || !name || !password) return toast.error('Please fill all fields');
-
+        const toastID = toast.loading("Signing Up");
         try {
             const res = await api.post('/api/auth/register', { name, email, password });
             const { user } = res.data;
-            toast.success('Sign up complete!');
+            toast.update(toastID, {
+                render: "Account Created",
+                autoClose: 3000,
+                type: "success",
+                isLoading: false,
+                closeOnClick: true
+            });
             // redirect to dashboard
-            navigate('/dashboard');
+            navigate('/login');
         } catch (err) {
             const msg = err?.response?.data?.message || 'Sign up failed';
-            toast.error(msg);
+            toast.update(toastID, {
+                render: msg,
+                autoClose: 3000,
+                type: "error",
+                isLoading: false,
+                closeOnClick: true
+            })
         }
     };
     const handleLogin = async (e) => {

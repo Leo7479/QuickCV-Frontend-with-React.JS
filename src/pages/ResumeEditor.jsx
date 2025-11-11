@@ -228,9 +228,21 @@ const ResumeEditor = (props) => {
                                                                         {
                                                                             type === "description" ?
                                                                                 <textarea name={name} required={required}
-                                                                                    
+                                                                                    defaultValue = {formData[activeStep].data[idx].Description?.map((line,i)=>{
+                                                                                        return "• "+line;
+                                                                                    }).join("\n")}
                                                                                     onChange={(e) => {
-                                                                                        
+                                                                                        const fieldData = e.target.value;
+                                                                                        const newFormData = formData.map((stepData, id)=>{
+                                                                                            if(id===activeStep){
+                                                                                                const value = {...stepData};
+                                                                                                value.data[idx].Description = fieldData.replaceAll("• ","").split("\n");
+                                                                                                return value;
+                                                                                            }else{
+                                                                                                return stepData
+                                                                                            }
+                                                                                        });
+                                                                                        setFormData(newFormData);
                                                                                     }}
                                                                                     className={`w-full border-[1px] border-solid border-lightDarker bg-lightDark rounded-lg px-2 py-2 md:py-4 text-dark outline-none focus:glow-primary transition-all duration-200 ${type === "text" ? "capitalize" : null}`} {...f} >
                                                                                         
