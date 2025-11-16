@@ -420,7 +420,8 @@ const ResumeEditor = (props) => {
                                 activeStep === formConfig.length - 1 ?
                                     <div className="flex flex-col justify-center align-start gap-y-2 w-full h-fit w-full">
                                         <button
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.preventDefault();
                                                 const resumeElement = document.querySelector(".template");
                                                 handleDownloadPdf(resumeElement);
                                             }}
@@ -435,7 +436,8 @@ const ResumeEditor = (props) => {
                                         </button>
                                         {/* Print Resume Button */}
                                         <button
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.preventDefault();
                                                 const resumeElement = document.querySelector(".template");
                                                 handlePrint(resumeElement)
                                             }}
